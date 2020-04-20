@@ -107,10 +107,10 @@
     
     
 <p>This analysis is a simple visualisation and tabulation of the data gathered from surveying 21 journals and 300 articles in the field of plant pathology for their openness and reproducibility.</p>
-<div id="setup-workspace" class="section level1">
+<div id="set-up-workspace" class="section level1">
 <h1 class="hasAnchor">
-<a href="#setup-workspace" class="anchor"></a>Setup Workspace</h1>
-<p>Setup workspace by loading libraries used and setting the ggplot2 theme for the document.</p>
+<a href="#set-up-workspace" class="anchor"></a>Set-up Workspace</h1>
+<p>Letup workspace by loading libraries used and setting the ggplot2 theme for the document.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"dplyr"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
@@ -179,7 +179,7 @@
 <div id="prepare-the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-the-data" class="anchor"></a>Prepare the data</h2>
-<p>Calculate the reproducibility score, dropping any rows (in this case two) that have <code>NA</code> for the full score and convert fields to factors and the tibble to a data.frame.</p>
+<p>Calculate the reproducibility score, dropping any rows that have <code>NA</code> (two) for the full score and convert fields to factors and the tibble to a data.frame.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span>
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
