@@ -131,6 +131,7 @@
 <span class="co">#&gt;     chisq.test, fisher.test</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"magrittr"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"pander"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"readODS"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"Reproducibility.in.Plant.Pathology"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"tidyr"</span>)
 <span class="co">#&gt; </span>
@@ -144,9 +145,37 @@
 <div id="import-article-evaluations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#import-article-evaluations" class="anchor"></a>Import article evaluations</h1>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span> <span class="kw pkg">gsheet</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsheet/man/gsheet2tbl.html">gsheet2tbl</a></span>(
-  <span class="st">"https://docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/edit#gid=1699540381"</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/readODS/man/read_ods.html">read_ods</a></span>(
+    <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"article_notes.ods"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"Reproducibility.in.Plant.Pathology"</span>),
+    <span class="kw">na</span> <span class="kw">=</span> <span class="st">"NA"</span>, <span class="kw">sheet</span> <span class="kw">=</span> <span class="fl">3</span>
+  )
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   .default = col_character(),</span>
+<span class="co">#&gt;   year = col_double(),</span>
+<span class="co">#&gt;   contains_page = col_double(),</span>
+<span class="co">#&gt;   IF_5year = col_double(),</span>
+<span class="co">#&gt;   repro_inst = col_double(),</span>
+<span class="co">#&gt;   molecular = col_logical(),</span>
+<span class="co">#&gt;   software_cite = col_double(),</span>
+<span class="co">#&gt;   software_avail = col_double(),</span>
+<span class="co">#&gt;   comp_mthds_avail = col_double(),</span>
+<span class="co">#&gt;   data_avail = col_double(),</span>
+<span class="co">#&gt;   address = col_logical(),</span>
+<span class="co">#&gt;   annote = col_logical(),</span>
+<span class="co">#&gt;   booktitle = col_logical(),</span>
+<span class="co">#&gt;   chapter = col_logical(),</span>
+<span class="co">#&gt;   crossref = col_logical(),</span>
+<span class="co">#&gt;   edition = col_logical(),</span>
+<span class="co">#&gt;   howpublished = col_logical(),</span>
+<span class="co">#&gt;   institution = col_logical(),</span>
+<span class="co">#&gt;   key = col_logical(),</span>
+<span class="co">#&gt;   note = col_logical(),</span>
+<span class="co">#&gt;   number = col_double()</span>
+<span class="co">#&gt;   # ... with 6 more columns</span>
+<span class="co">#&gt; )</span>
+<span class="co">#&gt; See spec(...) for full column specifications.</span></pre></body></html></div>
 <div id="prepare-the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-the-data" class="anchor"></a>Prepare the data</h2>
@@ -157,14 +186,11 @@
     <span class="kw">reproducibility_score</span> <span class="kw">=</span>
       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span>(
         <span class="kw">condition</span> <span class="kw">=</span> <span class="no">data_avail</span> <span class="kw">&gt;</span> <span class="fl">0</span>,
-
         <span class="kw">true</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">comp_mthds_avail</span>) +
           <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">software_avail</span>) +
           <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">software_cite</span>) +
           <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">data_avail</span>),
-
         <span class="kw">false</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">data_avail</span>),
-
         <span class="kw">missing</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="fl">0</span>)
       )
   ) <span class="kw">%&gt;%</span>
@@ -179,14 +205,13 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">open</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">open</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">abbreviation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">abbreviation</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">assignee</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">assignee</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">reproducibility_score</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">reproducibility_score</span>))</pre></body></html></div>
 <p>Create a tidy data frame of the data by unnesting software used as in many cases multiple software packages were used, so will end up with multiple rows for same article, one for each software.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">software_used</span>, <span class="st">", "</span>))
-<span class="co">#&gt; Warning: unnest() has a new interface. See ?unnest for details.</span>
-<span class="co">#&gt; Try `df %&gt;% unnest(c(software_used))`, with `mutate()` if needed</span></pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">software_used</span>, <span class="st">","</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>))</pre></body></html></div>
 </div>
 </div>
 <div id="visualise-evaluations" class="section level1">
@@ -196,22 +221,20 @@
 <h2 class="hasAnchor">
 <a href="#article-classes" class="anchor"></a>Article classes</h2>
 <p>What class did the articles fall into, "Applied,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"count"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Class(es)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Article Classification"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Article Classification"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-4-1.png" width="614.4"></p>
 </div>
 <div id="computational-methods-available" class="section level2">
 <h2 class="hasAnchor">
 <a href="#computational-methods-available" class="anchor"></a>Computational methods available</h2>
-<p>Were the computational methods, scripts, source code, etc. made available?</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
+<p>Were the computational methods, scripts, source code, <em>etc.</em>, made available?</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Computational Methods Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
 </div>
@@ -219,140 +242,129 @@
 <h2 class="hasAnchor">
 <a href="#software-availability" class="anchor"></a>Software availability</h2>
 <p>Were the software used readily available and preferably open-source?</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Software Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-6-1.png" width="614.4"></p>
-</div>
-<div id="data-availability" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-availability" class="anchor"></a>Data availability</h2>
-<p>Were the data made available?</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Data Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()
-<span class="co">#&gt; Warning: Removed 4 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
 </div>
 <div id="software-citations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-citations" class="anchor"></a>Software citations</h2>
 <p>Were the software that was used properly cited?</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Software Cited"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 7 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
 </div>
 <div id="software-used-cited" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-used-cited" class="anchor"></a>Software used (cited)</h2>
 <p>Count and sort top 10 software packages cited. There are likely others that are used, but they have not been properly identified by the authors.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
 <span class="no">tab_s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="no">tab</span>)
 <span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">17</span>) <span class="co"># checking the table, there are several ties</span>
 <span class="no">top_software</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">rrpp_software</span>, <span class="no">software_used</span> <span class="kw">%in%</span> <span class="no">top10</span>)
 <span class="no">top_software</span>$<span class="no">software_used</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">top_software</span>$<span class="no">software_used</span>,
                                      <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span>(<span class="no">top10</span>))
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">top_software</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">software_used</span>)) +
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">top_software</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_used</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Top 10 Software Used"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Software"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Count"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Count"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
+</div>
+<div id="data-availability" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-availability" class="anchor"></a>Data availability</h2>
+<p>Were the data made readily available?</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Data Availability"</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
+<span class="co">#&gt; Warning: Removed 4 rows containing non-finite values (stat_count).</span></pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-9-1.png" width="614.4"></p>
 </div>
 <div id="reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reproducibility-score" class="anchor"></a>Reproducibility score</h2>
 <p>The reproducibility score was calculated as the sum of the scores for computational method availability,</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Combined Reproducibility Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-10-1.png" width="614.4"></p>
 </div>
 <div id="article-class-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#article-class-effect-on-reproducibility-score" class="anchor"></a>Article class effect on reproducibility score</h2>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Article Class Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Class(es)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
 </div>
 <div id="journal-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-effect-on-reproducibility-score" class="anchor"></a>Journal effect on reproducibility score</h2>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">abbreviation</span>)) +
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">abbreviation</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Journal Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Journal"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-12-1.png" width="614.4"></p>
 </div>
 <div id="evaluator-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluator-effect-on-reproducibility-score" class="anchor"></a>Evaluator effect on reproducibility score</h2>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Evaluator Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Evaluator"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-13-1.png" width="614.4"></p>
 </div>
 <div id="five-year-impact-factor-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#five-year-impact-factor-effect-on-reproducibility-score" class="anchor"></a>Five year impact factor effect on reproducibility score</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Five Year IF Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Impact Factor"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-14-1.png" width="614.4"></p>
 </div>
 <div id="journal-open-access-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-open-access-effect-on-reproducibility-score" class="anchor"></a>Journal open access effect on reproducibility score</h2>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">open</span>)) +
-   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">open</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Open Access Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Open Access Classification"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-15-1.png" width="614.4"></p>
 </div>
 <div id="journal-reproducibility-instructions-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-reproducibility-instructions-effect-on-reproducibility-score" class="anchor"></a>Journal reproducibility instructions effect on reproducibility score</h2>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Reproducibility Instructions Effect"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Reproducibility Instructions Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-16-1.png" width="614.4"></p>
 </div>
 <div id="tables" class="section level2">

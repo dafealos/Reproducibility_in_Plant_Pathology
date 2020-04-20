@@ -103,14 +103,14 @@
 </blockquote>
 <p>Our pre-print is online here:</p>
 <blockquote>
-<p>Authors, (YYYY). <em>Title of paper</em>. Name of journal/book, Accessed 09 Apr 2020. Online at <a href="https://doi.org/xxx/xxx" class="uri">https://doi.org/xxx/xxx</a></p>
+<p>Authors, (YYYY). <em>Title of paper</em>. Name of journal/book, Accessed 20 Apr 2020. Online at <a href="https://doi.org/xxx/xxx" class="uri">https://doi.org/xxx/xxx</a></p>
 </blockquote>
 <div id="how-to-cite" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-cite" class="anchor"></a>How to cite</h3>
 <p>Please cite this compendium as:</p>
 <blockquote>
-<p>Sparks, A.H., Del Ponte, E.M., dos Santos Alves, K., Foster, Z., Grünwald, N. (2020). <em>Compendium of R code and data for ‘Status and Best Practices for Reproducible Research In Plant Pathology’</em>. Accessed 09 Apr 2020. Online at <a href="https://doi.org/10.5281/zenodo.1250665" class="uri">https://doi.org/10.5281/zenodo.1250665</a></p>
+<p>Sparks, A.H., Del Ponte, E.M., dos Santos Alves, K., Foster, Z., Grünwald, N. (2020). <em>Compendium of R code and data for ‘Status and Best Practices for Reproducible Research In Plant Pathology’</em>. Accessed 20 Apr 2020. Online at <a href="https://doi.org/10.5281/zenodo.1250665" class="uri">https://doi.org/10.5281/zenodo.1250665</a></p>
 </blockquote>
 </div>
 <div id="how-to-download-or-install" class="section level3">
@@ -119,7 +119,7 @@
 <div id="the-r-package" class="section level4">
 <h4 class="hasAnchor">
 <a href="#the-r-package" class="anchor"></a>The R package</h4>
-<p>This repository is organized as an R package. There is one R function, <code><a href="reference/doi2bib-methods.html">doi2bib()</a></code>, that is used in this repository, along with a bibliography file of the articles that were examined that are located in <code>inst/extdata</code> directory. We have used the R package structure to help manage dependencies, to take advantage of continuous integration for automated code testing and for file organisation.</p>
+<p>This repository is organized as an R package. There are custom R functions, <code><a href="reference/doi2bib-methods.html">doi2bib()</a></code>, <code><a href="reference/table_of_journals.html">table_of_journals()</a></code> and <code><a href="reference/workflow_dia.html">workflow_dia()</a></code> that are used in this repository, along with a bibliography file of the articles that were examined and the notes that are located in <code>inst/extdata</code> directory. We have used the R package structure to help manage dependencies, to take advantage of continuous integration for automated code testing and for file organisation.</p>
 <p>You can download the compendium as a zip from from this URL: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/archive/master.zip" class="uri">https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/archive/master.zip</a></p>
 <p>Or you can install this compendium as an R package, Reproducibility.in.Plant.Pathology, from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"remotes"</span>))
