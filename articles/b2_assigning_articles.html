@@ -287,7 +287,8 @@
 <h3 class="hasAnchor">
 <a href="#generate-a-bibliography-file-to-use-with-the-paper" class="anchor"></a>Generate a bibliography file to use with the paper</h3>
 <p>Using the DOIs in this file, we can retrieve the BibTex citations for those articles that provide a DOI. Note that not all of the selected articles have a DOI, so we’ll have to manually generate those entries, or fetch them from the journals’ websites later.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">article_notes</span> <span class="kw">&lt;-</span> <span class="fu">gs_title</span>(<span class="st">"article_notes_2017-2018"</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"doi2bib"</span>)
+<span class="no">article_notes</span> <span class="kw">&lt;-</span> <span class="fu">gs_title</span>(<span class="st">"article_notes_2017-2018"</span>)
 
 <span class="no">notes</span> <span class="kw">&lt;-</span>
   <span class="no">article_notes</span> <span class="kw">%&gt;%</span>
