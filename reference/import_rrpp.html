@@ -155,7 +155,258 @@
  analysis and manuscript preparation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>import_rrpp</span>()</div><div class='output co'>#&gt; <span class='error'>Error in readr::read_csv(system.file("extdata", "article_notes.csv", package = "Reproducibility.in.Plant.Pathology"),     na = "NA") %&gt;% dplyr::mutate(reproducibility_score = dplyr::if_else(condition = data_avail &gt;     0, true = as.integer(comp_mthds_avail) + as.integer(software_avail) +     as.integer(software_cite) + as.integer(data_avail), false = as.integer(data_avail),     missing = as.integer(0))) %&gt;% dplyr::mutate(IF_5year = dplyr::if_else(condition = is.na(IF_5year),     true = 0, false = IF_5year)) %&gt;% dplyr::mutate(art_class = as.factor(art_class)) %&gt;%     dplyr::mutate(repro_inst = as.factor(repro_inst)) %&gt;% dplyr::mutate(open = as.factor(open)) %&gt;%     dplyr::mutate(abbreviation = as.factor(abbreviation)) %&gt;%     dplyr::mutate(assignee = as.factor(assignee)) %&gt;% dplyr::filter(!is.na(reproducibility_score)): could not find function "%&gt;%"</span></div><div class='input'><span class='kw pkg'>pander</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pander/man/pander.html'>pander</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>rrpp</span>))</div><div class='output co'>#&gt; <span class='error'>Error in head(rrpp): object 'rrpp' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>rrpp</span> <span class='kw'>&lt;-</span> <span class='fu'>import_rrpp</span>()</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  year = <span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  contains_page = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  IF_5year = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  repro_inst = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  molecular = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  software_cite = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  software_avail = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  comp_mthds_avail = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  data_avail = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  address = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  annote = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  booktitle = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  chapter = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  crossref = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  edition = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  howpublished = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  institution = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  key = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  note = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
+#&gt; <span class='message'>  number = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  # ... with 6 more columns</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='input'><span class='kw pkg'>pander</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pander/man/pander.html'>pander</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>rrpp</span>))</div><div class='output co'>#&gt; 
+#&gt; ----------------------------------------------------------------------------
+#&gt;            journal                  abbreviation       year   contains_page 
+#&gt; ------------------------------ ---------------------- ------ ---------------
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2013        13       
+#&gt; 
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2013        51       
+#&gt; 
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2014        29       
+#&gt; 
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2014        55       
+#&gt; 
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2017        75       
+#&gt; 
+#&gt;  Australasian Plant Pathology   Australas Plant Path   2018        11       
+#&gt; ----------------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; -----------------------------------------------------------------------
+#&gt;  assignee              doi                         comments            
+#&gt; ---------- --------------------------- --------------------------------
+#&gt;    Zach     10.1007/s13313-012-0157-z   The journal has guidelines for 
+#&gt;                                          data availability, but does   
+#&gt;                                          not mention reproducibility   
+#&gt;                                           exactly. I am not sure how   
+#&gt;                                          this effects the "repo_inst"  
+#&gt;                                          value. For the "country", I   
+#&gt;                                          put the country of where the  
+#&gt;                                                authors worked.         
+#&gt; 
+#&gt;    Adam     10.1007/s13313-012-0178-7   When the article was published 
+#&gt;                                          I'm not sure that MaxEnt was  
+#&gt;                                           freely available, however,   
+#&gt;                                         very recently (1st half 2017)  
+#&gt;                                          it's become freely available  
+#&gt; 
+#&gt;    Adam     10.1007/s13313-013-0228-9                 NA               
+#&gt; 
+#&gt;    Zach     10.1007/s13313-013-0240-0   The journal has guidelines for 
+#&gt;                                          data availability, but does   
+#&gt;                                          not mention reproducibility   
+#&gt;                                           exactly. I am not sure how   
+#&gt;                                          this effects the "repo_inst"  
+#&gt;                                          value. For the "country", I   
+#&gt;                                          put the country of where the  
+#&gt;                                                authors worked.         
+#&gt; 
+#&gt;   Kaique    10.1007/s13313-017-0465-4                 NA               
+#&gt; 
+#&gt;   Kaique    10.1007/s13313-017-0532-x                 NA               
+#&gt; -----------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; ----------------------------------------------------------------------
+#&gt;  IF_5year   open   repro_inst   art_class   molecular   software_cite 
+#&gt; ---------- ------ ------------ ----------- ----------- ---------------
+#&gt;   1.139     BOTH       2         Applied      FALSE           0       
+#&gt; 
+#&gt;   1.139     BOTH       2         Applied      FALSE           3       
+#&gt; 
+#&gt;   1.139     BOTH       2         Applied      FALSE           3       
+#&gt; 
+#&gt;   1.139     BOTH       2         Applied      FALSE           0       
+#&gt; 
+#&gt;   1.203     BOTH       2         Applied      FALSE           0       
+#&gt; 
+#&gt;    1.36     BOTH       2         Applied      TRUE            2       
+#&gt; ----------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; ------------------------------------------------
+#&gt;  software_avail   comp_mthds_avail   data_avail 
+#&gt; ---------------- ------------------ ------------
+#&gt;        0                 0               0      
+#&gt; 
+#&gt;        3                 0               2      
+#&gt; 
+#&gt;        2                 0               0      
+#&gt; 
+#&gt;        0                 0               0      
+#&gt; 
+#&gt;        0                 0               0      
+#&gt; 
+#&gt;        3                 0               3      
+#&gt; ------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; --------------------------------------------------------------------------
+#&gt;          software_used            category   bibtexkey   address   annote 
+#&gt; -------------------------------- ---------- ----------- --------- --------
+#&gt;                NA                    NA         NA         NA        NA   
+#&gt; 
+#&gt;              MaxEnt               ARTICLE       NA         NA        NA   
+#&gt; 
+#&gt;             GenStat                  NA         NA         NA        NA   
+#&gt; 
+#&gt;                NA                    NA         NA         NA        NA   
+#&gt; 
+#&gt;                NA                    NA         NA         NA        NA   
+#&gt; 
+#&gt;  Sequence Scanner, MEGA, MAFFT,      NA         NA         NA        NA   
+#&gt;    MrModeltest, MrBayes, PAUP                                             
+#&gt; --------------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; --------------------------------------------------------------------------
+#&gt;             author               booktitle   chapter   crossref   edition 
+#&gt; ------------------------------- ----------- --------- ---------- ---------
+#&gt;              NULL                   NA         NA         NA        NA    
+#&gt; 
+#&gt;  J Elith, J Simpson, M Hirsch,      NA         NA         NA        NA    
+#&gt;           M A Burgman                                                     
+#&gt; 
+#&gt;   R. Billones-Baaijens, E. E.       NA         NA         NA        NA    
+#&gt;   Jones, H. J. Ridgway, M. V.                                             
+#&gt;             Jaspers                                                       
+#&gt; 
+#&gt;              NULL                   NA         NA         NA        NA    
+#&gt; 
+#&gt;              NULL                   NA         NA         NA        NA    
+#&gt; 
+#&gt;              NULL                   NA         NA         NA        NA    
+#&gt; --------------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; -------------------------------------------------------------------
+#&gt;  editor   howpublished   institution   key   month   note   number 
+#&gt; -------- -------------- ------------- ----- ------- ------ --------
+#&gt;   NULL         NA            NA        NA     jan     NA      1    
+#&gt; 
+#&gt;   NULL         NA            NA        NA     jan     NA      1    
+#&gt; 
+#&gt;   NULL         NA            NA        NA     may     NA      1    
+#&gt; 
+#&gt;   NULL         NA            NA        NA     jul     NA      1    
+#&gt; 
+#&gt;    NA          NA            NA        NA     NA      NA      NA   
+#&gt; 
+#&gt;    NA          NA            NA        NA     NA      NA      NA   
+#&gt; -------------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; -----------------------------------------------------
+#&gt;  organization   pages    publisher   school   series 
+#&gt; -------------- -------- ----------- -------- --------
+#&gt;       NA          NA        NA         NA       NA   
+#&gt; 
+#&gt;       NA        43--51      NA         NA       NA   
+#&gt; 
+#&gt;       NA        25--31      NA         NA       NA   
+#&gt; 
+#&gt;       NA        53--60      NA         NA       NA   
+#&gt; 
+#&gt;       NA          NA        NA         NA       NA   
+#&gt; 
+#&gt;       NA          NA        NA         NA       NA   
+#&gt; -----------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; ------------------------------------------------------------
+#&gt;              title               type   volume   url   issn 
+#&gt; ------------------------------- ------ -------- ----- ------
+#&gt;  On–farm waste-based composts     NA      42     NA     NA  
+#&gt;           in managing                                       
+#&gt;      \textit{{Macrophomina                                  
+#&gt;  phaseolina}} induced dry root                              
+#&gt;     rot of guar in an arid                                  
+#&gt;           environment                                       
+#&gt; 
+#&gt;    Taxonomic uncertainty and      NA      42     NA     NA  
+#&gt;       decision making for                                   
+#&gt;   biosecurity: spatial models                               
+#&gt;      for myrtle/guava rust                                  
+#&gt; 
+#&gt;    Susceptibility of common       NA      43     NA     NA  
+#&gt;  rootstock and scion varieties                              
+#&gt;        of grapevines to                                     
+#&gt;  \textit{{Botryosphaeriaceae}}                              
+#&gt;             species                                         
+#&gt; 
+#&gt;  An improved culture solution     NA      43     NA     NA  
+#&gt;          technique for                                      
+#&gt;     \textit{{Plasmodiophora                                 
+#&gt;  brassicae}} infection and the                              
+#&gt;  dynamic infection in the root                              
+#&gt;              hair                                           
+#&gt; 
+#&gt;               NA                  NA      NA     NA     NA  
+#&gt; 
+#&gt;               NA                  NA      NA     NA     NA  
+#&gt; ------------------------------------------------------------
+#&gt; 
+#&gt; Table: Table continues below
+#&gt; 
+#&gt;  
+#&gt; ---------------------------------------------
+#&gt;  x.article.pm..title   reproducibility_score 
+#&gt; --------------------- -----------------------
+#&gt;          NA                      0           
+#&gt; 
+#&gt;          NA                      8           
+#&gt; 
+#&gt;          NA                      0           
+#&gt; 
+#&gt;          NA                      0           
+#&gt; 
+#&gt;          NA                      0           
+#&gt; 
+#&gt;          NA                      8           
+#&gt; ---------------------------------------------
+#&gt; </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
