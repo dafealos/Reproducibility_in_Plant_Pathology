@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • Reproducibility in Plant Pathology</title>
+<title>Import Reproducibility Score Notes — import_rrpp • Reproducibility in Plant Pathology</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Import Reproducibility Score Notes — import_rrpp" />
+<meta property="og:description" content="Imports, formats data into proper types and calculates the final
+ reproducibility score" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -132,60 +134,29 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Import Reproducibility Score Notes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/R/import_rrpp.R'><code>R/import_rrpp.R</code></a></small>
+    <div class="hidden name"><code>import_rrpp.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Imports, formats data into proper types and calculates the final
+ reproducibility score</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>import_rrpp</span>()</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="doi2bib-methods.html">doi2bib()</a></code> </p>
-        </td>
-        <td><p>Convert doi to bibtex</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="import_rrpp.html">import_rrpp()</a></code> </p>
-        </td>
-        <td><p>Import Reproducibility Score Notes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="table_of_journals.html">table_of_journals()</a></code> </p>
-        </td>
-        <td><p>Create Table of Journals Surveyed</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="workflow_dia.html">workflow_dia()</a></code> </p>
-        </td>
-        <td><p>Create Workflow Diagram Figure</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A `tibble` object of reproducibility score notes formatted for use in
+ analysis and manuscript preparation</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>import_rrpp</span>()</div><div class='output co'>#&gt; <span class='error'>Error in readr::read_csv(system.file("extdata", "article_notes.csv", package = "Reproducibility.in.Plant.Pathology"),     na = "NA") %&gt;% dplyr::mutate(reproducibility_score = dplyr::if_else(condition = data_avail &gt;     0, true = as.integer(comp_mthds_avail) + as.integer(software_avail) +     as.integer(software_cite) + as.integer(data_avail), false = as.integer(data_avail),     missing = as.integer(0))) %&gt;% dplyr::mutate(IF_5year = dplyr::if_else(condition = is.na(IF_5year),     true = 0, false = IF_5year)) %&gt;% dplyr::mutate(art_class = as.factor(art_class)) %&gt;%     dplyr::mutate(repro_inst = as.factor(repro_inst)) %&gt;% dplyr::mutate(open = as.factor(open)) %&gt;%     dplyr::mutate(abbreviation = as.factor(abbreviation)) %&gt;%     dplyr::mutate(assignee = as.factor(assignee)) %&gt;% dplyr::filter(!is.na(reproducibility_score)): could not find function "%&gt;%"</span></div><div class='input'><span class='kw pkg'>pander</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pander/man/pander.html'>pander</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>rrpp</span>))</div><div class='output co'>#&gt; <span class='error'>Error in head(rrpp): object 'rrpp' not found</span></div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

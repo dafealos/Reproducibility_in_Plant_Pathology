@@ -97,7 +97,7 @@
       <h1 data-toc-skip>Analysis</h1>
                         <h4 class="author">Adam H Sparks</h4>
             
-            <h4 class="date">2020-04-20</h4>
+            <h4 class="date">2020-04-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/e_analysis.Rmd"><code>vignettes/e_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>e_analysis.Rmd</code></div>
@@ -111,45 +111,39 @@
 <h1 class="hasAnchor">
 <a href="#set-up-workspace" class="anchor"></a>Set-up Workspace</h1>
 <p>Letup workspace by loading libraries used and setting the ggplot2 theme for the document.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"dplyr"</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"tidyverse"</span>)
+<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span>
+<span class="co">#&gt; ✔ ggplot2 3.3.0     ✔ purrr   0.3.4</span>
+<span class="co">#&gt; ✔ tibble  3.0.1     ✔ dplyr   0.8.5</span>
+<span class="co">#&gt; ✔ tidyr   1.0.2     ✔ stringr 1.4.0</span>
+<span class="co">#&gt; ✔ readr   1.3.1     ✔ forcats 0.5.0</span>
+<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span>
+<span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggpubr"</span>)
 <span class="co">#&gt; Loading required package: magrittr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'magrittr'</span>
+<span class="co">#&gt; The following object is masked from 'package:purrr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     set_names</span>
+<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     extract</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"janitor"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'janitor'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     chisq.test, fisher.test</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"magrittr"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"pander"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"readODS"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"Reproducibility.in.Plant.Pathology"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"tidyr"</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'tidyr'</span>
-<span class="co">#&gt; The following object is masked from 'package:magrittr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     extract</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/theme_pubr.html">theme_pubclean</a></span>())</pre></body></html></div>
-</div>
-<div id="import-article-evaluations" class="section level1">
-<h1 class="hasAnchor">
-<a href="#import-article-evaluations" class="anchor"></a>Import article evaluations</h1>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/readODS/man/read_ods.html">read_ods</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"article_notes.ods"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"Reproducibility.in.Plant.Pathology"</span>),
-    <span class="kw">na</span> <span class="kw">=</span> <span class="st">"NA"</span>, <span class="kw">sheet</span> <span class="kw">=</span> <span class="fl">3</span>
-  )
+<span class="fu">theme_set</span>(<span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/theme_pubr.html">theme_pubclean</a></span>())</pre></body></html></div>
+<div id="import-the-data-and-calculate-the-reproducibility-score" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import-the-data-and-calculate-the-reproducibility-score" class="anchor"></a>Import the data and calculate the reproducibility score</h2>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/import_rrpp.html">import_rrpp</a></span>()
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   .default = col_character(),</span>
@@ -176,42 +170,12 @@
 <span class="co">#&gt;   # ... with 6 more columns</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; See spec(...) for full column specifications.</span></pre></body></html></div>
-<div id="prepare-the-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prepare-the-data" class="anchor"></a>Prepare the data</h2>
-<p>Calculate the reproducibility score, dropping any rows that have <code>NA</code> (two) for the full score and convert fields to factors and the tibble to a data.frame.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span>
-  <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
-    <span class="kw">reproducibility_score</span> <span class="kw">=</span>
-      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span>(
-        <span class="kw">condition</span> <span class="kw">=</span> <span class="no">data_avail</span> <span class="kw">&gt;</span> <span class="fl">0</span>,
-        <span class="kw">true</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">comp_mthds_avail</span>) +
-          <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">software_avail</span>) +
-          <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">software_cite</span>) +
-          <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">data_avail</span>),
-        <span class="kw">false</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">data_avail</span>),
-        <span class="kw">missing</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="fl">0</span>)
-      )
-  ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">IF_5year</span> <span class="kw">=</span>
-           <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span>(
-             <span class="kw">condition</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">IF_5year</span>),
-             <span class="kw">true</span> <span class="kw">=</span> <span class="fl">0</span>,
-             <span class="kw">false</span> <span class="kw">=</span> <span class="no">IF_5year</span>
-           )) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">art_class</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">art_class</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">repro_inst</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">open</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">open</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">abbreviation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">abbreviation</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">assignee</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">assignee</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">reproducibility_score</span>))</pre></body></html></div>
 <p>Create a tidy data frame of the data by unnesting software used as in many cases multiple software packages were used, so will end up with multiple rows for same article, one for each software.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">software_used</span>, <span class="st">","</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>))</pre></body></html></div>
+  <span class="fu">unnest</span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>))</pre></body></html></div>
 </div>
 </div>
 <div id="visualise-evaluations" class="section level1">
@@ -221,151 +185,201 @@
 <h2 class="hasAnchor">
 <a href="#article-classes" class="anchor"></a>Article classes</h2>
 <p>What class did the articles fall into, "Applied,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"count"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Class(es)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Article Classification"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-4-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
+  <span class="fu">geom_bar</span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"count"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Class"</span>) +
+  <span class="fu">ggtitle</span>(<span class="st">"Article Classification"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-3-1.png" width="614.4"></p>
 </div>
 <div id="computational-methods-available" class="section level2">
 <h2 class="hasAnchor">
 <a href="#computational-methods-available" class="anchor"></a>Computational methods available</h2>
 <p>Were the computational methods, scripts, source code, <em>etc.</em>, made available?</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Computational Methods Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Computational Methods Availability"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-4-1.png" width="614.4"></p>
 </div>
 <div id="software-availability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-availability" class="anchor"></a>Software availability</h2>
 <p>Were the software used readily available and preferably open-source?</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Software Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Software Availability"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-6-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
 </div>
 <div id="software-citations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-citations" class="anchor"></a>Software citations</h2>
 <p>Were the software that was used properly cited?</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Software Cited"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Software Cited"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 7 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-6-1.png" width="614.4"></p>
 </div>
 <div id="software-used-cited" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-used-cited" class="anchor"></a>Software used (cited)</h2>
 <p>Count and sort top 10 software packages cited. There are likely others that are used, but they have not been properly identified by the authors.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
 <span class="no">tab_s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="no">tab</span>)
 <span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">17</span>) <span class="co"># checking the table, there are several ties</span>
 <span class="no">top_software</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">rrpp_software</span>, <span class="no">software_used</span> <span class="kw">%in%</span> <span class="no">top10</span>)
 <span class="no">top_software</span>$<span class="no">software_used</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">top_software</span>$<span class="no">software_used</span>,
                                      <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span>(<span class="no">top10</span>))
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">top_software</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_used</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Top 10 Software Used"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Software"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Count"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
+<span class="fu">ggplot</span>(<span class="no">top_software</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_used</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Top 10 Software Used"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Software"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Count"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
 </div>
 <div id="data-availability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-availability" class="anchor"></a>Data availability</h2>
 <p>Were the data made readily available?</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Data Availability"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Data Availability"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>)
 <span class="co">#&gt; Warning: Removed 4 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-9-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
 </div>
 <div id="reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reproducibility-score" class="anchor"></a>Reproducibility score</h2>
 <p>The reproducibility score was calculated as the sum of the scores for computational method availability,</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Combined Reproducibility Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-10-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
+  <span class="fu">geom_bar</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Combined Reproducibility Score"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-9-1.png" width="614.4"></p>
 </div>
 <div id="article-class-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#article-class-effect-on-reproducibility-score" class="anchor"></a>Article class effect on reproducibility score</h2>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Article Class Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Class(es)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
+  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+  <span class="fu">ggtitle</span>(<span class="st">"Article Class Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Class"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-10-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">art_class</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Wilcoxon rank sum test with continuity correction</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by art_class</span>
+<span class="co">#&gt; W = 10390, p-value = 0.1858</span>
+<span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></pre></body></html></div>
+<p>The Mann-Whitney U test indicates that the article class does not affect the assigned reproducibility score.</p>
 </div>
 <div id="journal-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-effect-on-reproducibility-score" class="anchor"></a>Journal effect on reproducibility score</h2>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">abbreviation</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Journal Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Journal"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-12-1.png" width="614.4"></p>
+  <span class="fu">geom_count</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Journal Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Journal"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">abbreviation</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by as.factor(abbreviation)</span>
+<span class="co">#&gt; Kruskal-Wallis chi-squared = 26.623, df = 19, p-value = 0.1138</span></pre></body></html></div>
+<p>The Kruskal-Wallis test indicates that the journal title does not appear to have an effect on the assigned reproducibility score.</p>
 </div>
 <div id="evaluator-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#evaluator-effect-on-reproducibility-score" class="anchor"></a>Evaluator effect on reproducibility score</h2>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Evaluator Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Evaluator"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-13-1.png" width="614.4"></p>
+  <span class="fu">geom_count</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Evaluator Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Evaluator"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-12-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">assignee</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by assignee</span>
+<span class="co">#&gt; Kruskal-Wallis chi-squared = 7.328, df = 3, p-value = 0.06215</span></pre></body></html></div>
+<p>The Kruskal-Wallis test indicates that the assigned reviewer does not have an effect on the reproducibility scores assigned.</p>
 </div>
 <div id="five-year-impact-factor-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#five-year-impact-factor-effect-on-reproducibility-score" class="anchor"></a>Five year impact factor effect on reproducibility score</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Five Year IF Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Impact Factor"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-14-1.png" width="614.4"></p>
+  <span class="fu">geom_count</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Five Year IF Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Impact Factor"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-13-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">IF_5year</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by IF_5year</span>
+<span class="co">#&gt; Kruskal-Wallis chi-squared = 70.073, df = 48, p-value = 0.02048</span></pre></body></html></div>
+<p>Impact factor does appear to have an effect on the reproducibility score.</p>
 </div>
 <div id="journal-open-access-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-open-access-effect-on-reproducibility-score" class="anchor"></a>Journal open access effect on reproducibility score</h2>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">open</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_count.html">geom_count</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Open Access Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Open Access Classification"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-15-1.png" width="614.4"></p>
+  <span class="fu">geom_count</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Open Access Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Open Access Classification"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-14-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">open</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Wilcoxon rank sum test with continuity correction</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by open</span>
+<span class="co">#&gt; W = 4556, p-value = 0.6188</span>
+<span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></pre></body></html></div>
+<p>The Mann–Whitney U test indicates that the journal’s open access status does not affect the reproducibility score.</p>
 </div>
 <div id="journal-reproducibility-instructions-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-reproducibility-instructions-effect-on-reproducibility-score" class="anchor"></a>Journal reproducibility instructions effect on reproducibility score</h2>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">rrpp</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Reproducibility Instructions Effect"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Reproducibility Instructions Score"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-16-1.png" width="614.4"></p>
+  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+  <span class="fu">ggtitle</span>(<span class="st">"Reproducibility Instructions Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Reproducibility Instructions Score"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-15-1.png" width="614.4"></p>
+<div class="sourceCode" id="cb22"><html><body><pre class="r">
+<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  reproducibility_score by as.factor(repro_inst)</span>
+<span class="co">#&gt; Kruskal-Wallis chi-squared = 2.208, df = 2, p-value = 0.3315</span></pre></body></html></div>
+<p>The Kruskal-Wallis test indicates that the journals’ instructions for authors concerning sharing data and reproducibility have no effect on the score assigned.</p>
 </div>
 <div id="tables" class="section level2">
 <h2 class="hasAnchor">
@@ -373,7 +387,7 @@
 <div id="table-of-journals-surveyed" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-of-journals-surveyed" class="anchor"></a>Table of Journals Surveyed</h3>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rrpp_journals</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Journal"</span>, <span class="st">"n"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">rrpp_journals</span>)</pre></body></html></div>
 <table class="table">
@@ -476,7 +490,7 @@
 <div id="table-of-article-scores" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-of-article-scores" class="anchor"></a>Table of Article Scores</h3>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">article_scores</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Score"</span>, <span class="st">"n"</span>, <span class="st">"Percent"</span>)
 <span class="no">article_scores</span>$<span class="no">Percent</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">article_scores</span>$<span class="no">Percent</span> * <span class="fl">100</span>, <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">article_scores</span>)</pre></body></html></div>
