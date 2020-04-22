@@ -97,7 +97,7 @@
       <h1 data-toc-skip>Analysis</h1>
                         <h4 class="author">Adam H Sparks</h4>
             
-            <h4 class="date">2020-04-21</h4>
+            <h4 class="date">2020-04-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/e_analysis.Rmd"><code>vignettes/e_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>e_analysis.Rmd</code></div>
@@ -143,13 +143,12 @@
 <div id="import-the-data-and-calculate-the-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import-the-data-and-calculate-the-reproducibility-score" class="anchor"></a>Import the data and calculate the reproducibility score</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/import_rrpp.html">import_rrpp</a></span>()
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">rrpp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/import_notes.html">import_notes</a></span>()
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   .default = col_character(),</span>
 <span class="co">#&gt;   year = col_double(),</span>
 <span class="co">#&gt;   contains_page = col_double(),</span>
-<span class="co">#&gt;   IF_5year = col_double(),</span>
 <span class="co">#&gt;   repro_inst = col_double(),</span>
 <span class="co">#&gt;   molecular = col_logical(),</span>
 <span class="co">#&gt;   software_cite = col_double(),</span>
@@ -166,10 +165,18 @@
 <span class="co">#&gt;   institution = col_logical(),</span>
 <span class="co">#&gt;   key = col_logical(),</span>
 <span class="co">#&gt;   note = col_logical(),</span>
-<span class="co">#&gt;   number = col_double()</span>
-<span class="co">#&gt;   # ... with 6 more columns</span>
+<span class="co">#&gt;   number = col_double(),</span>
+<span class="co">#&gt;   organization = col_logical()</span>
+<span class="co">#&gt;   # ... with 5 more columns</span>
 <span class="co">#&gt; )</span>
-<span class="co">#&gt; See spec(...) for full column specifications.</span></pre></body></html></div>
+<span class="co">#&gt; See spec(...) for full column specifications.</span>
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   Journal = col_character(),</span>
+<span class="co">#&gt;   IF_2year = col_double(),</span>
+<span class="co">#&gt;   IF_5year = col_double(),</span>
+<span class="co">#&gt;   `Source: InCites Journal Citation Reports, Clarivate Analytics, 2018` = col_logical()</span>
+<span class="co">#&gt; )</span></pre></body></html></div>
 <p>Create a tidy data frame of the data by unnesting software used as in many cases multiple software packages were used, so will end up with multiple rows for same article, one for each software.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
@@ -338,7 +345,7 @@
 <span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; data:  reproducibility_score by IF_5year</span>
-<span class="co">#&gt; Kruskal-Wallis chi-squared = 70.073, df = 48, p-value = 0.02048</span></pre></body></html></div>
+<span class="co">#&gt; Kruskal-Wallis chi-squared = 27.989, df = 19, p-value = 0.08363</span></pre></body></html></div>
 <p>Impact factor does appear to have an effect on the reproducibility score.</p>
 </div>
 <div id="journal-open-access-effect-on-reproducibility-score" class="section level2">
