@@ -182,7 +182,8 @@
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">software_used</span>, <span class="st">","</span>)) <span class="kw">%&gt;%</span>
   <span class="fu">unnest</span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>))</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(<span class="no">software_used</span>)) <span class="co"># convert all to uppercase to standardise</span></pre></body></html></div>
 </div>
 </div>
 <div id="visualise-evaluations" class="section level1">
@@ -234,10 +235,10 @@
 <div id="software-used-cited" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-used-cited" class="anchor"></a>Software used (cited)</h2>
-<p>Count and sort top 10 software packages cited. There are likely others that are used, but they have not been properly identified by the authors.</p>
+<p>Count and sort top 10 software packages cited. There are likely others that are used, but they have not been properly cited or listed by the authors.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
 <span class="no">tab_s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="no">tab</span>)
-<span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">17</span>) <span class="co"># checking the table, there are several ties</span>
+<span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">14</span>) <span class="co"># checking the table, there are several ties</span>
 <span class="no">top_software</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">rrpp_software</span>, <span class="no">software_used</span> <span class="kw">%in%</span> <span class="no">top10</span>)
 <span class="no">top_software</span>$<span class="no">software_used</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">top_software</span>$<span class="no">software_used</span>,
                                      <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span>(<span class="no">top10</span>))
@@ -245,8 +246,8 @@
 <span class="fu">ggplot</span>(<span class="no">top_software</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_used</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Top 10 Software Used"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Software"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Count"</span>)</pre></body></html></div>
+  <span class="fu">xlab</span>(<span class="st">"Count"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Software"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
 </div>
 <div id="data-availability" class="section level2">
