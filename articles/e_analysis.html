@@ -95,9 +95,9 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Analysis</h1>
-                        <h4 class="author">Adam H Sparks</h4>
+                        <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-04-22</h4>
+            <h4 class="date">2020-04-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/e_analysis.Rmd"><code>vignettes/e_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>e_analysis.Rmd</code></div>
@@ -172,13 +172,36 @@
 <span class="co">#&gt; See spec(...) for full column specifications.</span>
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   Journal = col_character(),</span>
+<span class="co">#&gt;   journal = col_character(),</span>
 <span class="co">#&gt;   IF_2year = col_double(),</span>
 <span class="co">#&gt;   IF_5year = col_double(),</span>
 <span class="co">#&gt;   `Source: InCites Journal Citation Reports, Clarivate Analytics, 2018` = col_logical()</span>
 <span class="co">#&gt; )</span></pre></body></html></div>
+</div>
+<div id="reproducibility-score" class="section level2">
+<h2 class="hasAnchor">
+<a href="#reproducibility-score" class="anchor"></a>Reproducibility score</h2>
+<p>The reproducibility score was calculated as the sum of the scores for computational method availability for the total available scores. That is, if a paper did not require specialised software but deposited and reported all data the score was 100%, the same as for another article that cited and used all open source software and deposited code and data.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
+  <span class="fu">geom_density</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Reproducibility Score"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score (%)"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-2-1.png" width="614.4"></p>
+</div>
+<div id="evaluator-effect-on-reproducibility-score" class="section level2">
+<h2 class="hasAnchor">
+<a href="#evaluator-effect-on-reproducibility-score" class="anchor"></a>Evaluator effect on reproducibility score</h2>
+<p>Have a look at whether evaluators had an effect on the scores assigned.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
+  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+  <span class="fu">ggtitle</span>(<span class="st">"Evaluator Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Evaluator"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-3-1.png" width="614.4"></p>
 <p>Create a tidy data frame of the data by unnesting software used as in many cases multiple software packages were used, so will end up with multiple rows for same article, one for each software.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">rrpp_software</span> <span class="kw">&lt;-</span>
   <span class="no">rrpp</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/transform.html">transform</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">software_used</span>, <span class="st">","</span>)) <span class="kw">%&gt;%</span>
   <span class="fu">unnest</span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
@@ -192,51 +215,51 @@
 <div id="article-classes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#article-classes" class="anchor"></a>Article classes</h2>
-<p>What class did the articles fall into, "Applied,</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
+<p>What class did the articles fall into, “Applied” or “Fundamental”.</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ylab</span>(<span class="st">"Class"</span>) +
   <span class="fu">ggtitle</span>(<span class="st">"Article Classification"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-3-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
 </div>
 <div id="computational-methods-available" class="section level2">
 <h2 class="hasAnchor">
 <a href="#computational-methods-available" class="anchor"></a>Computational methods available</h2>
 <p>Were the computational methods, scripts, source code, <em>etc.</em>, made available?</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Computational Methods Availability"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Score"</span>)
-<span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-4-1.png" width="614.4"></p>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_count).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-6-1.png" width="614.4"></p>
 </div>
 <div id="software-availability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-availability" class="anchor"></a>Software availability</h2>
 <p>Were the software used readily available and preferably open-source?</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Software Availability"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Score"</span>)
-<span class="co">#&gt; Warning: Removed 9 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_count).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
 </div>
 <div id="software-citations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-citations" class="anchor"></a>Software citations</h2>
 <p>Were the software that was used properly cited?</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_cite</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Software Cited"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Score"</span>)
-<span class="co">#&gt; Warning: Removed 7 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-6-1.png" width="614.4"></p>
+<span class="co">#&gt; Warning: Removed 8 rows containing non-finite values (stat_count).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
 </div>
 <div id="software-used-cited" class="section level2">
 <h2 class="hasAnchor">
 <a href="#software-used-cited" class="anchor"></a>Software used (cited)</h2>
 <p>Count and sort top 10 software packages cited. There are likely others that are used, but they have not been properly cited or listed by the authors.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
 <span class="no">tab_s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="no">tab</span>)
 <span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">14</span>) <span class="co"># checking the table, there are several ties</span>
 <span class="no">top_software</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">rrpp_software</span>, <span class="no">software_used</span> <span class="kw">%in%</span> <span class="no">top10</span>)
@@ -248,49 +271,30 @@
   <span class="fu">ggtitle</span>(<span class="st">"Top 10 Software Used"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Count"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Software"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-7-1.png" width="614.4"></p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-9-1.png" width="614.4"></p>
 </div>
 <div id="data-availability" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-availability" class="anchor"></a>Data availability</h2>
 <p>Were the data made readily available?</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>)) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Data Availability"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Score"</span>)
-<span class="co">#&gt; Warning: Removed 4 rows containing non-finite values (stat_count).</span></pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-8-1.png" width="614.4"></p>
-</div>
-<div id="reproducibility-score" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reproducibility-score" class="anchor"></a>Reproducibility score</h2>
-<p>The reproducibility score was calculated as the sum of the scores for computational method availability,</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>)) +
-  <span class="fu">geom_bar</span>() +
-  <span class="fu">ggtitle</span>(<span class="st">"Combined Reproducibility Score"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-9-1.png" width="614.4"></p>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_count).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-10-1.png" width="614.4"></p>
 </div>
 <div id="article-class-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#article-class-effect-on-reproducibility-score" class="anchor"></a>Article class effect on reproducibility score</h2>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
   <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
   <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
   <span class="fu">ggtitle</span>(<span class="st">"Article Class Effect"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Class"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-10-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">art_class</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Wilcoxon rank sum test with continuity correction</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by art_class</span>
-<span class="co">#&gt; W = 10390, p-value = 0.1858</span>
-<span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></pre></body></html></div>
-<p>The Mann-Whitney U test indicates that the article class does not affect the assigned reproducibility score.</p>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
 </div>
 <div id="journal-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
@@ -301,78 +305,36 @@
   <span class="fu">ggtitle</span>(<span class="st">"Journal Effect"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Journal"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
-<p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">abbreviation</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by as.factor(abbreviation)</span>
-<span class="co">#&gt; Kruskal-Wallis chi-squared = 26.623, df = 19, p-value = 0.1138</span></pre></body></html></div>
-<p>The Kruskal-Wallis test indicates that the journal title does not appear to have an effect on the assigned reproducibility score.</p>
-</div>
-<div id="evaluator-effect-on-reproducibility-score" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluator-effect-on-reproducibility-score" class="anchor"></a>Evaluator effect on reproducibility score</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
-  <span class="fu">geom_count</span>() +
-  <span class="fu">ggtitle</span>(<span class="st">"Evaluator Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Evaluator"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-12-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">assignee</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by assignee</span>
-<span class="co">#&gt; Kruskal-Wallis chi-squared = 7.328, df = 3, p-value = 0.06215</span></pre></body></html></div>
-<p>The Kruskal-Wallis test indicates that the assigned reviewer does not have an effect on the reproducibility scores assigned.</p>
 </div>
 <div id="five-year-impact-factor-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#five-year-impact-factor-effect-on-reproducibility-score" class="anchor"></a>Five year impact factor effect on reproducibility score</h2>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
   <span class="fu">geom_count</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Five Year IF Effect"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Impact Factor"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-13-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">IF_5year</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by IF_5year</span>
-<span class="co">#&gt; Kruskal-Wallis chi-squared = 27.989, df = 19, p-value = 0.08363</span></pre></body></html></div>
-<p>The Mann-Whitney U Test suggests that impact factor does not appear to have an effect on the reproducibility score.</p>
 </div>
 <div id="journal-open-access-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-open-access-effect-on-reproducibility-score" class="anchor"></a>Journal open access effect on reproducibility score</h2>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="no">open</span>)) +
-  <span class="fu">geom_count</span>() +
+  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
   <span class="fu">ggtitle</span>(<span class="st">"Open Access Effect"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Open Access Classification"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-14-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="no">open</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Wilcoxon rank sum test with continuity correction</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by open</span>
-<span class="co">#&gt; W = 4556, p-value = 0.6188</span>
-<span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></pre></body></html></div>
-<p>The Mann–Whitney U test indicates that the journal’s open access status does not affect the reproducibility score.</p>
+<p>The t.test indicates that the journal’s open access status does not affect the reproducibility score.</p>
 </div>
 <div id="journal-reproducibility-instructions-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-reproducibility-instructions-effect-on-reproducibility-score" class="anchor"></a>Journal reproducibility instructions effect on reproducibility score</h2>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
                  <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
   <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
   <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
@@ -380,14 +342,7 @@
   <span class="fu">ylab</span>(<span class="st">"Reproducibility Instructions Score"</span>) +
   <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-15-1.png" width="614.4"></p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span>(<span class="no">reproducibility_score</span> ~ <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">rrpp</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Kruskal-Wallis rank sum test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  reproducibility_score by as.factor(repro_inst)</span>
-<span class="co">#&gt; Kruskal-Wallis chi-squared = 2.208, df = 2, p-value = 0.3315</span></pre></body></html></div>
-<p>The Kruskal-Wallis test indicates that the journals’ instructions for authors concerning sharing data and reproducibility have no effect on the score assigned.</p>
+<p>The ANOVA indicates that the journals’ instructions for authors concerning sharing data and reproducibility have no effect on the score assigned.</p>
 </div>
 <div id="tables" class="section level2">
 <h2 class="hasAnchor">
@@ -395,7 +350,7 @@
 <div id="table-of-journals-surveyed" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-of-journals-surveyed" class="anchor"></a>Table of Journals Surveyed</h3>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rrpp_journals</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Journal"</span>, <span class="st">"n"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">rrpp_journals</span>)</pre></body></html></div>
 <table class="table">
@@ -414,7 +369,7 @@
 </tr>
 <tr class="even">
 <td align="center">Canadian Journal of Plant Pathology</td>
-<td align="center">12</td>
+<td align="center">13</td>
 </tr>
 <tr class="odd">
 <td align="center">Crop Protection</td>
@@ -438,7 +393,7 @@
 </tr>
 <tr class="even">
 <td align="center">Journal of Plant Pathology</td>
-<td align="center">14</td>
+<td align="center">15</td>
 </tr>
 <tr class="odd">
 <td align="center">Molecular Plant Pathology</td>
@@ -498,14 +453,14 @@
 <div id="table-of-article-scores" class="section level3">
 <h3 class="hasAnchor">
 <a href="#table-of-article-scores" class="anchor"></a>Table of Article Scores</h3>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">article_scores</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Score"</span>, <span class="st">"n"</span>, <span class="st">"Percent"</span>)
 <span class="no">article_scores</span>$<span class="no">Percent</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">article_scores</span>$<span class="no">Percent</span> * <span class="fl">100</span>, <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">article_scores</span>)</pre></body></html></div>
 <table class="table">
 <colgroup>
 <col width="11%">
-<col width="8%">
+<col width="6%">
 <col width="13%">
 </colgroup>
 <thead><tr class="header">
@@ -516,56 +471,76 @@
 <tbody>
 <tr class="odd">
 <td align="center">0</td>
-<td align="center">246</td>
-<td align="center">82.6</td>
+<td align="center">53</td>
+<td align="center">17.7</td>
 </tr>
 <tr class="even">
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">0.3</td>
+<td align="center">8.333</td>
+<td align="center">5</td>
+<td align="center">1.7</td>
 </tr>
 <tr class="odd">
-<td align="center">2</td>
+<td align="center">11.11</td>
 <td align="center">2</td>
 <td align="center">0.7</td>
 </tr>
 <tr class="even">
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">1.3</td>
-</tr>
-<tr class="odd">
-<td align="center">4</td>
-<td align="center">3</td>
-<td align="center">1</td>
-</tr>
-<tr class="even">
-<td align="center">5</td>
-<td align="center">4</td>
-<td align="center">1.3</td>
-</tr>
-<tr class="odd">
-<td align="center">6</td>
-<td align="center">11</td>
-<td align="center">3.7</td>
-</tr>
-<tr class="even">
+<td align="center">16.67</td>
 <td align="center">7</td>
-<td align="center">14</td>
-<td align="center">4.7</td>
+<td align="center">2.3</td>
 </tr>
 <tr class="odd">
-<td align="center">8</td>
-<td align="center">11</td>
-<td align="center">3.7</td>
+<td align="center">25</td>
+<td align="center">44</td>
+<td align="center">14.7</td>
 </tr>
 <tr class="even">
-<td align="center">9</td>
+<td align="center">33.33</td>
+<td align="center">83</td>
+<td align="center">27.7</td>
+</tr>
+<tr class="odd">
+<td align="center">41.67</td>
+<td align="center">52</td>
+<td align="center">17.3</td>
+</tr>
+<tr class="even">
+<td align="center">44.44</td>
 <td align="center">1</td>
 <td align="center">0.3</td>
 </tr>
 <tr class="odd">
-<td align="center">11</td>
+<td align="center">50</td>
+<td align="center">22</td>
+<td align="center">7.3</td>
+</tr>
+<tr class="even">
+<td align="center">55.56</td>
+<td align="center">1</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="odd">
+<td align="center">58.33</td>
+<td align="center">14</td>
+<td align="center">4.7</td>
+</tr>
+<tr class="even">
+<td align="center">66.67</td>
+<td align="center">12</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">75</td>
+<td align="center">2</td>
+<td align="center">0.7</td>
+</tr>
+<tr class="even">
+<td align="center">91.67</td>
+<td align="center">1</td>
+<td align="center">0.3</td>
+</tr>
+<tr class="odd">
+<td align="center">100</td>
 <td align="center">1</td>
 <td align="center">0.3</td>
 </tr>
