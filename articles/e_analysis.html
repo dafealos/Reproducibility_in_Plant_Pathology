@@ -219,11 +219,11 @@
 <h2 class="hasAnchor">
 <a href="#computational-methods-available" class="anchor"></a>Computational methods available</h2>
 <p>Were the computational methods, scripts, source code, <em>etc.</em>, made available?</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>)) +
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">comp_mthds_avail</span>))) +
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Computational Methods Availability"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Score"</span>)
-<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_count).</span></pre></body></html></div>
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"NA means that no computational methods were used to generate the data,\ne.g. only PCR results reported with no statistical analsyis"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
 </div>
 <div id="software-availability" class="section level2">
@@ -323,7 +323,7 @@
 <h2 class="hasAnchor">
 <a href="#journal-open-access-effect-on-reproducibility-score" class="anchor"></a>Journal open access effect on reproducibility score</h2>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">open</span>)) +
+                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">open</span>))) +
   <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
   <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
   <span class="fu">ggtitle</span>(<span class="st">"Open Access Effect"</span>) +
