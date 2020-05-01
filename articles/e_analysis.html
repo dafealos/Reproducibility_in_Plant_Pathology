@@ -462,12 +462,13 @@
 <span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_summary).</span></pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-19-1.png" width="614.4"></p>
 </div>
-<div id="tables" class="section level2">
+</div>
+<div id="tables" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tables" class="anchor"></a>Tables</h1>
+<div id="table-of-journals-surveyed" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tables" class="anchor"></a>Tables</h2>
-<div id="table-of-journals-surveyed" class="section level3">
-<h3 class="hasAnchor">
-<a href="#table-of-journals-surveyed" class="anchor"></a>Table of journals surveyed</h3>
+<a href="#table-of-journals-surveyed" class="anchor"></a>Table of journals surveyed</h2>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rrpp_journals</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Journal"</span>, <span class="st">"n"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">rrpp_journals</span>)</pre></body></html></div>
@@ -568,9 +569,9 @@
 </tbody>
 </table>
 </div>
-<div id="table-of-article-scores" class="section level3">
-<h3 class="hasAnchor">
-<a href="#table-of-article-scores" class="anchor"></a>Table of article scores</h3>
+<div id="table-of-article-scores" class="section level2">
+<h2 class="hasAnchor">
+<a href="#table-of-article-scores" class="anchor"></a>Table of article scores</h2>
 <div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">article_scores</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Score"</span>, <span class="st">"n"</span>, <span class="st">"Percent"</span>)
 <span class="no">article_scores</span>$<span class="no">Percent</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">article_scores</span>$<span class="no">Percent</span> * <span class="fl">100</span>, <span class="fl">1</span>)
@@ -664,7 +665,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
   </div>
