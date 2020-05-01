@@ -192,13 +192,20 @@
 <h2 class="hasAnchor">
 <a href="#evaluator-effect-on-reproducibility-score" class="anchor"></a>Evaluator effect on reproducibility score</h2>
 <p>Have a look at whether evaluators had an effect on the scores assigned.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
-  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">assignee</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
   <span class="fu">ggtitle</span>(<span class="st">"Evaluator Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Evaluator"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+  <span class="fu">ylab</span>(<span class="st">"Reproducibility Score (%)"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Evaluator"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median reproducibility score value."</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-3-1.png" width="614.4"></p>
 </div>
 </div>
@@ -223,7 +230,7 @@
   <span class="fu">geom_bar</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Computational Methods Availability"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Score"</span>) +
-  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"NA means that no computational methods were used to generate the data,\ne.g. only PCR results reported with no statistical analsyis"</span>)</pre></body></html></div>
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"NA means that no computational methods were used to generate the data,\ne.g. only PCR results reported with no statistical analysis"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-5-1.png" width="614.4"></p>
 </div>
 <div id="software-availability" class="section level2">
@@ -259,10 +266,11 @@
   <span class="fu">unnest</span>(<span class="no">software_used</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span>(<span class="no">software_used</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/reexports.html">mutate</a></span>(<span class="kw">software_used</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span>(<span class="no">software_used</span>)) <span class="co"># convert all to uppercase to standardise</span></pre></body></html></div>
-<p>Now graph the top ten softwares.</p>
+<p>Now graph the top ten software packages used.</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">tab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">rrpp_software</span>$<span class="no">software_used</span>)
 <span class="no">tab_s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="no">tab</span>)
-<span class="no">top10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">14</span>) <span class="co"># checking the table, there are several ties</span>
+<span class="no">top10</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">tab_s</span>), <span class="fl">14</span>) <span class="co"># checking the table, there are several ties</span>
 <span class="no">top_software</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">rrpp_software</span>, <span class="no">software_used</span> <span class="kw">%in%</span> <span class="no">top10</span>)
 <span class="no">top_software</span>$<span class="no">software_used</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">top_software</span>$<span class="no">software_used</span>,
                                      <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span>(<span class="no">top10</span>))
@@ -288,13 +296,20 @@
 <div id="article-class-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#article-class-effect-on-reproducibility-score" class="anchor"></a>Article class effect on reproducibility score</h2>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
-  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">art_class</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
   <span class="fu">ggtitle</span>(<span class="st">"Article Class Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Class"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+  <span class="fu">ylab</span>(<span class="st">"Reproducibility Score (%)"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Class"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median reproducibility score value."</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-11-1.png" width="614.4"></p>
 </div>
 <div id="journal-effect-on-reproducibility-score" class="section level2">
@@ -311,57 +326,149 @@
 <div id="five-year-impact-factor-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#five-year-impact-factor-effect-on-reproducibility-score" class="anchor"></a>Five year impact factor effect on reproducibility score</h2>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">IF_5year</span>)) +
   <span class="fu">geom_count</span>() +
+  <span class="fu">geom_smooth</span>() +
   <span class="fu">ggtitle</span>(<span class="st">"Five Year IF Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Impact Factor"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Impact Factor"</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-13-1.png" width="614.4"></p>
 </div>
 <div id="journal-open-access-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-open-access-effect-on-reproducibility-score" class="anchor"></a>Journal open access effect on reproducibility score</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">open</span>))) +
-  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
-  <span class="fu">ggtitle</span>(<span class="st">"Open Access Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Open Access Classification"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">open</span>))) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
+  <span class="fu">ggtitle</span>(<span class="st">"Journal Open Access Classification Effect"</span>) +
+  <span class="fu">ylab</span>(<span class="st">"Score"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Open Access Classification"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-14-1.png" width="614.4"></p>
 </div>
 <div id="journal-reproducibility-instructions-effect-on-reproducibility-score" class="section level2">
 <h2 class="hasAnchor">
 <a href="#journal-reproducibility-instructions-effect-on-reproducibility-score" class="anchor"></a>Journal reproducibility instructions effect on reproducibility score</h2>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
-  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">repro_inst</span>))) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
   <span class="fu">ggtitle</span>(<span class="st">"Reproducibility Instructions Effect"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Reproducibility Instructions Score"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Score"</span>)</pre></body></html></div>
+  <span class="fu">ylab</span>(<span class="st">"Reproducibility Score (%)"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Reproducibility Instructions Score"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-15-1.png" width="614.4"></p>
 </div>
-<div id="reproducibility-score-by-year" class="section level2">
+<div id="scores-by-year" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reproducibility-score-by-year" class="anchor"></a>Reproducibility score by year</h2>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
-                 <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">year</span>))) +
-  <span class="fu">geom_boxplot</span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
-  <span class="fu">geom_jitter</span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
-  <span class="fu">ggtitle</span>(<span class="st">"Reproducibility Score by Year"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Score (%)"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Year"</span>)</pre></body></html></div>
+<a href="#scores-by-year" class="anchor"></a>Scores by year</h2>
+</div>
+<div id="full-reproducibility-score" class="section level2">
+<h2 class="hasAnchor">
+<a href="#full-reproducibility-score" class="anchor"></a>Full reproducibility score</h2>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">reproducibility_score</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">year</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">geom_smooth</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
+  <span class="fu">ylab</span>(<span class="st">"Reproducibility Score (%)"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Year"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)</pre></body></html></div>
 <p><img src="e_analysis_files/figure-html/unnamed-chunk-16-1.png" width="614.4"></p>
+</div>
+<div id="computational-methods-score" class="section level2">
+<h2 class="hasAnchor">
+<a href="#computational-methods-score" class="anchor"></a>Computational methods score</h2>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">comp_mthds_avail</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">year</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">geom_smooth</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
+  <span class="fu">ylab</span>(<span class="st">"Computational Methods Availability"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Year"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_sum).</span>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_summary).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-17-1.png" width="614.4"></p>
+</div>
+<div id="software-availability-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#software-availability-1" class="anchor"></a>Software availability</h2>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">software_avail</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">year</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">geom_smooth</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
+  <span class="fu">ylab</span>(<span class="st">"Software Availability"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Year"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_sum).</span>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 10 rows containing non-finite values (stat_summary).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-18-1.png" width="614.4"></p>
+</div>
+<div id="data-availability-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-availability-1" class="anchor"></a>Data availability</h2>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">rrpp</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">data_avail</span>,
+                 <span class="kw">x</span> <span class="kw">=</span> <span class="no">year</span>)) +
+  <span class="fu">geom_count</span>() +
+  <span class="fu">geom_smooth</span>() +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.min</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">fun.max</span> <span class="kw">=</span> <span class="no">median</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"crossbar"</span>,
+    <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.5</span>
+  ) +
+  <span class="fu">ylab</span>(<span class="st">"Data Availability"</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Year"</span>) +
+  <span class="fu">labs</span>(<span class="kw">caption</span> <span class="kw">=</span> <span class="st">"Crossbar indicates median score value."</span>)
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_sum).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_smooth).</span>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_summary).</span></pre></body></html></div>
+<p><img src="e_analysis_files/figure-html/unnamed-chunk-19-1.png" width="614.4"></p>
 </div>
 <div id="tables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tables" class="anchor"></a>Tables</h2>
 <div id="table-of-journals-surveyed" class="section level3">
 <h3 class="hasAnchor">
-<a href="#table-of-journals-surveyed" class="anchor"></a>Table of Journals Surveyed</h3>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
+<a href="#table-of-journals-surveyed" class="anchor"></a>Table of journals surveyed</h3>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">rrpp_journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">journal</span>)[, -<span class="fl">3</span>]
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">rrpp_journals</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Journal"</span>, <span class="st">"n"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">rrpp_journals</span>)</pre></body></html></div>
 <table class="table">
@@ -463,8 +570,8 @@
 </div>
 <div id="table-of-article-scores" class="section level3">
 <h3 class="hasAnchor">
-<a href="#table-of-article-scores" class="anchor"></a>Table of Article Scores</h3>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
+<a href="#table-of-article-scores" class="anchor"></a>Table of article scores</h3>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">article_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/janitor/man/tabyl.html">tabyl</a></span>(<span class="no">rrpp</span>, <span class="no">reproducibility_score</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">article_scores</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Score"</span>, <span class="st">"n"</span>, <span class="st">"Percent"</span>)
 <span class="no">article_scores</span>$<span class="no">Percent</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">article_scores</span>$<span class="no">Percent</span> * <span class="fl">100</span>, <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html">pander</a></span>(<span class="no">article_scores</span>)</pre></body></html></div>
