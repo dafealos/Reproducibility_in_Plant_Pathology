@@ -97,7 +97,7 @@
       <h1 data-toc-skip>Generate Final .bib File of References Reviewed</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-05-06</h4>
+            <h4 class="date">2020-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/d_generate_final_bib.Rmd"><code>vignettes/d_generate_final_bib.Rmd</code></a></small>
       <div class="hidden name"><code>d_generate_final_bib.Rmd</code></div>
@@ -111,8 +111,8 @@
 <a href="#generate-final--bib-file-of-references-reviewed" class="anchor"></a>Generate Final .bib File of References Reviewed</h1>
 <p>This file generates a .bib file of the references that were reviewed. Unfortunately not all references have a DOI and not DOIs resolve properly, so some manual intervention was required after the creation of the file.</p>
 <p>Some of the original references were not suitable when we began to review them, so we selected new references. Therefore, for this work, we will download the notes from Google Drive and use the DOIs from them.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">ref</span> <span class="kw">&lt;-</span> <span class="kw pkg">gsheet</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsheet/man/gsheet2tbl.html">gsheet2tbl</a></span>(
-    <span class="st">"docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/#gid=1699540381"</span>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">ref</span> <span class="kw">&lt;-</span> <span class="kw pkg">googlesheets4</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/googlesheets4/man/range_read.html">read_sheet</a></span>(
+    <span class="st">"https://docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/#gid=1699540381"</span>
   )</pre></body></html></div>
 <p>There are eight articles that do not have a DOI, remove them. They will be added manually to the resulting “references_reviewed_for_check.bib” file.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># remove the 15 articles with no DOI</span>

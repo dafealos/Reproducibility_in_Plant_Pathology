@@ -97,7 +97,7 @@
       <h1 data-toc-skip>Retrieving References Using DOI</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-05-06</h4>
+            <h4 class="date">2020-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/c_retrieving_references.Rmd"><code>vignettes/c_retrieving_references.Rmd</code></a></small>
       <div class="hidden name"><code>c_retrieving_references.Rmd</code></div>
@@ -111,8 +111,8 @@
 <a href="#load-the-dois" class="anchor"></a>Load the DOIs</h2>
 <p>Load DOIs from the gsheet template used to create the notes file. The DOIs were recorded when the initial articles were assigned.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">doi</span> <span class="kw">&lt;-</span>
-  <span class="kw pkg">gsheet</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gsheet/man/gsheet2tbl.html">gsheet2tbl</a></span>(
-    <span class="st">"docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M#gid=1579463541"</span>
+  <span class="kw pkg">googlesheets4</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/googlesheets4/man/range_read.html">read_sheet</a></span>(
+    <span class="st">"https://docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/edit#gid=1579463541"</span>
   )</pre></body></html></div>
 </div>
 <div id="some-journals-do-not-provide-a-doi" class="section level2">

@@ -97,7 +97,7 @@
       <h1 data-toc-skip>Second Round of Assigning Articles to Evaluators</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-05-06</h4>
+            <h4 class="date">2020-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/b2_assigning_articles.Rmd"><code>vignettes/b2_assigning_articles.Rmd</code></a></small>
       <div class="hidden name"><code>b2_assigning_articles.Rmd</code></div>
@@ -256,7 +256,7 @@
 <div id="write-to-google-sheets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#write-to-google-sheets" class="anchor"></a>Write to Google Sheets</h3>
-<p>We decided to use Google Sheets so that we could concurrently edit the file more easily. Once we’re done filling in our evaluations, we will import the data back to R. Jenny Bryan has created a handy package, <em>googlesheets</em> that we use here. <em>Note that this must be run interactively for <code>gs_new()</code> to work. Knitting this .Rmd file will not generate any gsheets, it must be done in an interactive R session.</em></p>
+<p>We decided to use Google Sheets so that we could concurrently edit the file more easily. Once we’re done filling in our evaluations, we will import the data back to R. Jenny Bryan has created a handy package, <em>googlesheets4</em> that we use here. <em>Note that this must be run interactively for <code>gs_new()</code> to work. Knitting this .Rmd file will not generate any Google sheets, it must be done in an interactive R session.</em></p>
 <p>Create a Google Sheets workbook to hold worksheets for this project. This first sheet will serve as a template and is thus named “template”.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Give googlesheets permission to access spreadsheets and Google Drive</span>
 <span class="fu">gs_auth</span>()
@@ -277,7 +277,7 @@
 <div id="add-article-dois" class="section level3">
 <h3 class="hasAnchor">
 <a href="#add-article-dois" class="anchor"></a>Add article DOI’s</h3>
-<p>This step is completed in gsheets, Adam looked up articles and added notes and DOIs to a gsheet, “article_notes_2017-2018” which will be imported to R in the next step.</p>
+<p>This step is completed in Google’s online sheets app, Adam looked up articles and added notes and DOIs to a ssheet, “article_notes_2017-2018” which will be imported to R in the next step.</p>
 </div>
 </div>
 <div id="step-3" class="section level2">

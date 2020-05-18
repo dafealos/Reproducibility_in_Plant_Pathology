@@ -161,63 +161,14 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>rrpp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>gsheet</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/gsheet/man/gsheet2tbl.html'>gsheet2tbl</a></span>(
+<span class='no'>rrpp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>googlesheets4</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/googlesheets4/man/range_read.html'>read_sheet</a></span>(
 <span class='st'>"https://docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/edit#gid=1699540381"</span>
-)
-<span class='fu'>table_of_journals</span>(<span class='no'>rrpp</span>)</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------
-#&gt;            Journal              Count 
-#&gt; ------------------------------ -------
-#&gt;  Australasian Plant Pathology     8   
-#&gt; 
-#&gt;   Canadian Journal of Plant      13   
-#&gt;           Pathology                   
-#&gt; 
-#&gt;        Crop Protection           14   
-#&gt; 
-#&gt;   European Journal of Plant      11   
-#&gt;           Pathology                   
-#&gt; 
-#&gt;        Forest Pathology          14   
-#&gt; 
-#&gt;    Journal of General Plant      17   
-#&gt;           Pathology                   
-#&gt; 
-#&gt;   Journal of Phytopathology      14   
-#&gt; 
-#&gt;   Journal of Plant Pathology     15   
-#&gt; 
-#&gt;   Molecular Plant Pathology      18   
-#&gt; 
-#&gt;    Molecular Plant-Microbe       16   
-#&gt;          Interactions                 
-#&gt; 
-#&gt;           Nematology             11   
-#&gt; 
-#&gt;  Physiological and Molecular     18   
-#&gt;        Plant Pathology                
-#&gt; 
-#&gt;        Phytoparasitica           19   
-#&gt; 
-#&gt;  Phytopathologia Mediterranea     9   
-#&gt; 
-#&gt;         Phytopathology           19   
-#&gt; 
-#&gt;         Plant Disease            15   
-#&gt; 
-#&gt;     Plant Health Progress        10   
-#&gt; 
-#&gt;        Plant Pathology           24   
-#&gt; 
-#&gt;      Revista Mexicana de         10   
-#&gt;         Fitopatología                 
-#&gt; 
-#&gt;    Tropical Plant Pathology       9   
-#&gt; 
-#&gt;    Virology Journal (Plant       16   
-#&gt;        Viruses Section)               
-#&gt; --------------------------------------
-#&gt; </div><div class='input'># }
+)</div><div class='output co'>#&gt; <span class='error'>Error: Can't get Google credentials.</span>
+#&gt; <span class='error'>Are you running googlesheets4 in a non-interactive session? Consider:</span>
+#&gt; <span class='error'>  * `gs4_deauth()` to prevent the attempt to get credentials.</span>
+#&gt; <span class='error'>  * Call `gs4_auth()` directly with all necessary specifics.</span>
+#&gt; <span class='error'>See gargle's "Non-interactive auth" vignette for more details:</span>
+#&gt; <span class='error'>https://gargle.r-lib.org/articles/non-interactive-auth.html</span></div><div class='input'><span class='fu'>table_of_journals</span>(<span class='no'>rrpp</span>)</div><div class='output co'>#&gt; <span class='error'>Error in table(rrpp[, 1]): object 'rrpp' not found</span></div><div class='input'># }
 
 </div></pre>
   </div>
