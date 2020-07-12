@@ -91,13 +91,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="d_generate_final_bib_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Generate Final .bib File of References Reviewed</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-05-18</h4>
+            <h4 class="date">2020-07-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/d_generate_final_bib.Rmd"><code>vignettes/d_generate_final_bib.Rmd</code></a></small>
       <div class="hidden name"><code>d_generate_final_bib.Rmd</code></div>
@@ -111,18 +111,26 @@
 <a href="#generate-final--bib-file-of-references-reviewed" class="anchor"></a>Generate Final .bib File of References Reviewed</h1>
 <p>This file generates a .bib file of the references that were reviewed. Unfortunately not all references have a DOI and not DOIs resolve properly, so some manual intervention was required after the creation of the file.</p>
 <p>Some of the original references were not suitable when we began to review them, so we selected new references. Therefore, for this work, we will download the notes from Google Drive and use the DOIs from them.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">ref</span> <span class="kw">&lt;-</span> <span class="kw pkg">googlesheets4</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/googlesheets4/man/range_read.html">read_sheet</a></span>(
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">ref</span> <span class="op">&lt;-</span> <span class="kw">googlesheets4</span>::<span class="fu"><a href="https://rdrr.io/pkg/googlesheets4/man/range_read.html">read_sheet</a></span>(
     <span class="st">"https://docs.google.com/spreadsheets/d/19gXobV4oPZeWZiQJAPNIrmqpfGQtpapXWcSxaXRw1-M/#gid=1699540381"</span>
-  )</pre></body></html></div>
+  )
+</pre></div>
 <p>There are eight articles that do not have a DOI, remove them. They will be added manually to the resulting “references_reviewed_for_check.bib” file.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># remove the 15 articles with no DOI</span>
-<span class="no">ref</span> <span class="kw">&lt;-</span> <span class="no">ref</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">ref</span>$<span class="no">doi</span>), ]</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># remove the 15 articles with no DOI</span>
+<span class="kw">ref</span> <span class="op">&lt;-</span> <span class="kw">ref</span>[<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">ref</span><span class="op">$</span><span class="kw">doi</span>), ]
+</pre></div>
 <p>Using <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, fetch the DOIs using <code>crossref::cr_cn()</code> and generate a .bib object in R.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">bib</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">ref</span>$<span class="no">doi</span>, <span class="kw pkg">rcrossref</span><span class="kw ns">::</span><span class="no"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw">ref</span><span class="op">$</span><span class="kw">doi</span>, <span class="kw">rcrossref</span>::<span class="kw"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>)
+</pre></div>
 <p>Save the resulting .bib file for checking using JabRef and completion, filling in the entries for journals that do not provide DOIs.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/sink.html">sink</a></span>(<span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"inst/extdata/references_reviewed_for_check.bib"</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">bib</span>, <span class="no">paste</span>, <span class="kw">collapse</span> <span class="kw">=</span> <span class="st">" "</span>)))
-<span class="fu"><a href="https://rdrr.io/r/base/sink.html">sink</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/sink.html">sink</a></span>(file = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"inst/extdata/references_reviewed_for_check.bib"</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">bib</span>, <span class="kw">paste</span>, collapse = <span class="st">" "</span>)))
+<span class="fu"><a href="https://rdrr.io/r/base/sink.html">sink</a></span>()
+</pre></div>
 </div>
   </div>
 

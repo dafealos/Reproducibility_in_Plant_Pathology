@@ -157,7 +157,7 @@
  analysis and manuscript preparation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>notes</span> <span class='kw'>&lt;-</span> <span class='fu'>import_notes</span>()</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+    <pre class="examples"><div class='input'><span class='kw'>notes</span> <span class='op'>&lt;-</span> <span class='fu'>import_notes</span>()</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
 #&gt; <span class='message'>  year = <span style='color: #00BB00;'>col_double()</span><span>,</span>
@@ -187,7 +187,7 @@
 #&gt; <span class='message'>  IF_2year = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  IF_5year = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  `Source: InCites Journal Citation Reports, Clarivate Analytics, 2018` = </span><span style='color: #BBBB00;'>col_logical()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='input'><span class='kw pkg'>pander</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pander/man/pander.html'>pander</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>notes</span>))</div><div class='output co'>#&gt; 
+#&gt; <span class='message'>)</span></div><div class='input'><span class='kw'>pander</span>::<span class='fu'><a href='https://rdrr.io/pkg/pander/man/pander.html'>pander</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>notes</span>))</div><div class='output co'>#&gt; 
 #&gt; ----------------------------------------------------------------------------
 #&gt;            journal                  abbreviation       year   contains_page 
 #&gt; ------------------------------ ---------------------- ------ ---------------
@@ -415,8 +415,7 @@
 #&gt; 
 #&gt;        12                 66.67         
 #&gt; ----------------------------------------
-#&gt; </div><div class='input'>
-</div></span></pre>
+#&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,14 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.5.1.9000
-pkgdown_sha: 3b74d8860686ed6d63e536d7ec4971fbbde5faff
-articles:
-  a_reproducibility_criteria: a_reproducibility_criteria.html
-  b1_assigning_articles: b1_assigning_articles.html
-  b2_assigning_articles: b2_assigning_articles.html
-  c_retrieving_references: c_retrieving_references.html
-  d_generate_final_bib: d_generate_final_bib.html
-  e_analysis: e_analysis.html
-last_built: 2020-05-18T12:12Z
+pkgdown_sha: caf7cc74e008e8d0d6e53eeda93cd3cad3545bf2
+articles: []
+last_built: 2020-07-12T23:23Z
 urls:
   reference: https://openplantpathology.github.io/Reproducible.Plant.Pathology//reference
   article: https://openplantpathology.github.io/Reproducible.Plant.Pathology//articles
