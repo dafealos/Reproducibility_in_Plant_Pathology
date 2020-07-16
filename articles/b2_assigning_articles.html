@@ -69,7 +69,25 @@
       <a href="../articles/d_generate_final_bib.html">Generate Final .bib File of References Reviewed</a>
     </li>
     <li>
-      <a href="../articles/e_analysis.html">Analysis</a>
+      <a href="../articles/e_visualisation.html">Data Visualisation</a>
+    </li>
+    <li>
+      <a href="../articles/f_analysis_journal.html">Analysis of Journal Effect</a>
+    </li>
+    <li>
+      <a href="../articles/g_analysis_art_class.html">Analysis</a>
+    </li>
+    <li>
+      <a href="../articles/h_analysis_mol_focus.html">Analysis</a>
+    </li>
+    <li>
+      <a href="../articles/i_analysis_5y_if.html">Analysis</a>
+    </li>
+    <li>
+      <a href="../articles/j_analysis_access_policy.html">Analysis</a>
+    </li>
+    <li>
+      <a href="../articles/k_analysis_year.html">Analysis</a>
     </li>
   </ul>
 </li>
@@ -91,13 +109,13 @@
 
       
 
-      </header><script src="b2_assigning_articles_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="b2_assigning_articles_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Second Round of Assigning Articles to Evaluators</h1>
                         <h4 class="author">Adam H. Sparks</h4>
             
-            <h4 class="date">2020-07-12</h4>
+            <h4 class="date">2020-07-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology/blob/master/vignettes/b2_assigning_articles.Rmd"><code>vignettes/b2_assigning_articles.Rmd</code></a></small>
       <div class="hidden name"><code>b2_assigning_articles.Rmd</code></div>
@@ -118,27 +136,24 @@
 <div id="r-setup" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-setup" class="anchor"></a>R setup</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://readr.tidyverse.org">readr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://docs.ropensci.org/bib2df">bib2df</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/tidyverse/googlesheets4">googlesheets4</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://stringr.tidyverse.org">stringr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/openplantpathology/Reproducibility_in_Plant_Pathology">Reproducibility.in.Plant.Pathology</a></span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">bib2df</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googlesheets4</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stringr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Reproducibility.in.Plant.Pathology</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">23</span>)
 
 <span class="co"># For printing tibble in total</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(tibble.print_max = <span class="fl">21</span>, tibble.print_min = <span class="fl">21</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">tibble.print_max</span> <span class="kw">=</span> <span class="fl">21</span>, <span class="kw">tibble.print_min</span> <span class="kw">=</span> <span class="fl">21</span>)</pre></body></html></div>
 </div>
 <div id="create-list-of-journals" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-list-of-journals" class="anchor"></a>Create list of journals</h3>
 <p>We hand-picked a list of 21 journals that we felt represented plant pathology research. In this step, we will create a <code>tibble</code> in R of these journals, assigning them a number so that we can randomise them.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">journal_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">21</span>),
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">journal_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(
+  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">1</span>:<span class="fl">21</span>),
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Australasian Plant Pathology"</span>,
     <span class="st">"Canadian Journal of Plant Pathology"</span>,
     <span class="st">"Crop Protection"</span>,
@@ -161,16 +176,13 @@
     <span class="st">"Revista Mexicana de Fitopatología"</span>,
     <span class="st">"Tropical Plant Pathology"</span>))
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">journal_list</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"journal"</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">journal_list</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"journal"</span>)</pre></body></html></div>
 </div>
 <div id="create-list-of-evaluators-for-second-round-of-reviews" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-list-of-evaluators-for-second-round-of-reviews" class="anchor"></a>Create list of evaluators for second round of reviews</h3>
 <p>These articles were added at a later date to look for any possible trends in the plant pathology literature being published. The same journal titles were sampled for 2017-2018 using the same protocols as the original set of 200 articles for 100 articles over two years.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">assignees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Emerson"</span>, <span class="st">"Kaique"</span>), <span class="fl">50</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">assignees</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Emerson"</span>, <span class="st">"Kaique"</span>), <span class="fl">50</span>)</pre></body></html></div>
 </div>
 <div id="create-randomised-list" class="section level3">
 <h3 class="hasAnchor">
@@ -179,36 +191,30 @@
 <div id="create-a-randomised-list-of-the-journals" class="section level4">
 <h4 class="hasAnchor">
 <a href="#create-a-randomised-list-of-the-journals" class="anchor"></a>Create a randomised list of the journals</h4>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">journals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">21</span>, <span class="fl">100</span>, replace = <span class="fl">TRUE</span>))
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span>:<span class="fl">21</span>, <span class="fl">100</span>, <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
 
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">journals</span>) <span class="op">&lt;-</span> <span class="st">"number"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">journals</span>) <span class="kw">&lt;-</span> <span class="st">"number"</span>
 
-<span class="kw">journals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw">journals</span>, <span class="kw">journal_list</span>, <span class="st">"number"</span>)
-</pre></div>
+<span class="no">journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">journals</span>, <span class="no">journal_list</span>, <span class="st">"number"</span>)</pre></body></html></div>
 </div>
 <div id="randomly-select-articles" class="section level4">
 <h4 class="hasAnchor">
 <a href="#randomly-select-articles" class="anchor"></a>Randomly select articles</h4>
 <p>Generate a random list of years between 2012 and 2016 and a random list of start pages between 1 and 150 since some journals start numbering at 1 with every issue. Then bind the columns of the randomised list of journals with the randomised years and page start numbers. This then assumes that there is no temporal effect, <em>i.e.</em>, the time of year an article is published does not affect whether or not it is reproducible.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">year</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">2017</span><span class="op">:</span><span class="fl">2018</span>, <span class="fl">100</span>, replace = <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">year</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">2017</span>:<span class="fl">2018</span>, <span class="fl">100</span>, <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
-<span class="kw">contains_page</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span>(<span class="fl">150</span>, <span class="fl">100</span>, replace = <span class="fl">TRUE</span>)
+<span class="no">contains_page</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span>(<span class="fl">150</span>, <span class="fl">100</span>, <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
-<span class="kw">journals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">journals</span>[, <span class="op">-</span><span class="fl">1</span>], <span class="kw">year</span>, <span class="kw">contains_page</span>, <span class="kw">assignees</span>)
+<span class="no">journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">journals</span>[, -<span class="fl">1</span>], <span class="no">year</span>, <span class="no">contains_page</span>, <span class="no">assignees</span>)
 
-<span class="kw">journals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(.data = <span class="kw">journals</span>, <span class="kw">assignees</span>, <span class="kw">journal</span>, <span class="kw">year</span>, <span class="kw">contains_page</span>)
-</pre></div>
+<span class="no">journals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw">.data</span> <span class="kw">=</span> <span class="no">journals</span>, <span class="no">assignees</span>, <span class="no">journal</span>, <span class="no">year</span>, <span class="no">contains_page</span>)</pre></body></html></div>
 </div>
 <div id="check-the-number-of-articles-per-journal" class="section level4">
 <h4 class="hasAnchor">
 <a href="#check-the-number-of-articles-per-journal" class="anchor"></a>Check the number of articles per journal</h4>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">journals</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">journal</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">tally</a></span>(sort = <span class="fl">TRUE</span>)
-</pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">journals</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">journal</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">tally</a></span>(<span class="kw">sort</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 21 x 2
 ##    journal                                         n
 ##    &lt;chr&gt;                                       &lt;int&gt;
@@ -240,8 +246,7 @@
 <h3 class="hasAnchor">
 <a href="#add-empty-columns-for-evaluations" class="anchor"></a>Add empty columns for evaluations</h3>
 <p>A variety of information will be collected with each article to be used in the analysis later. It is easiest to enter this using a spreadsheet application, so we will add on the columns for what information we want to collect and save the table as a CSV for manual editing.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">to_record</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">to_record</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
   <span class="st">"doi"</span>,
   <span class="st">"IF_5year"</span>,
   <span class="st">"country"</span>,
@@ -259,32 +264,29 @@
   <span class="st">"data_tidy"</span>,
   <span class="st">"reproducibility_score"</span>
   )
-  <span class="kw">journals</span>[<span class="kw">to_record</span>] <span class="op">&lt;-</span> <span class="st">""</span>
-  
-  <span class="kw">journals</span> <span class="op">&lt;-</span> 
-    <span class="kw">journals</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">assignees</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>()
-</pre></div>
+  <span class="no">journals</span>[<span class="no">to_record</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
+
+  <span class="no">journals</span> <span class="kw">&lt;-</span>
+    <span class="no">journals</span> <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">assignees</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>()</pre></body></html></div>
 </div>
 <div id="write-to-google-sheets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#write-to-google-sheets" class="anchor"></a>Write to Google Sheets</h3>
 <p>We decided to use Google Sheets so that we could concurrently edit the file more easily. Once we’re done filling in our evaluations, we will import the data back to R. Jenny Bryan has created a handy package, <em>googlesheets4</em> that we use here. <em>Note that this must be run interactively for <code>gs_new()</code> to work. Knitting this .Rmd file will not generate any Google sheets, it must be done in an interactive R session.</em></p>
 <p>Create a Google Sheets workbook to hold worksheets for this project. This first sheet will serve as a template and is thus named “template”.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># Give googlesheets permission to access spreadsheets and Google Drive</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Give googlesheets permission to access spreadsheets and Google Drive</span>
 <span class="fu">gs_auth</span>()
 
 <span class="co"># create Google Sheet for concurrent edits, first sheet: article notes template</span>
 <span class="fu">gs_new</span>(
   <span class="st">"article_notes_2017-2018"</span>,
-  ws_title = <span class="st">"template"</span>,
-  input = <span class="kw">journals</span>,
-  trim = <span class="fl">TRUE</span>,
-  verbose = <span class="fl">FALSE</span>
-  )
-</pre></div>
+  <span class="kw">ws_title</span> <span class="kw">=</span> <span class="st">"template"</span>,
+  <span class="kw">input</span> <span class="kw">=</span> <span class="no">journals</span>,
+  <span class="kw">trim</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+  <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>
+  )</pre></body></html></div>
 </div>
 </div>
 <div id="step-2" class="section level2">
@@ -303,112 +305,100 @@
 <h3 class="hasAnchor">
 <a href="#generate-a-bibliography-file-to-use-with-the-paper" class="anchor"></a>Generate a bibliography file to use with the paper</h3>
 <p>Using the DOIs in this file, we can retrieve the BibTex citations for those articles that provide a DOI. Note that not all of the selected articles have a DOI, so we’ll have to manually generate those entries, or fetch them from the journals’ websites later.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"doi2bib"</span>)
-<span class="kw">article_notes</span> <span class="op">&lt;-</span> <span class="fu">gs_title</span>(<span class="st">"article_notes_2017-2018"</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"doi2bib"</span>)
+<span class="no">article_notes</span> <span class="kw">&lt;-</span> <span class="fu">gs_title</span>(<span class="st">"article_notes_2017-2018"</span>)
 
-<span class="kw">notes</span> <span class="op">&lt;-</span> 
-  <span class="kw">article_notes</span> <span class="op">%&gt;%</span> 
-    <span class="fu">gs_read</span>(ws = <span class="st">"article_notes"</span>)
-  
+<span class="no">notes</span> <span class="kw">&lt;-</span>
+  <span class="no">article_notes</span> <span class="kw">%&gt;%</span>
+    <span class="fu">gs_read</span>(<span class="kw">ws</span> <span class="kw">=</span> <span class="st">"article_notes"</span>)
+
 <span class="co"># format DOIs to all be uniform, lower-case</span>
-<span class="kw">notes</span><span class="op">$</span><span class="kw">doi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="kw">notes</span><span class="op">$</span><span class="kw">doi</span>)
+<span class="no">notes</span>$<span class="no">doi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="no">notes</span>$<span class="no">doi</span>)
 
 <span class="co"># convert encodings for text with accents</span>
-<span class="kw">notes</span><span class="op">$</span><span class="kw">journal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span>(<span class="kw">notes</span><span class="op">$</span><span class="kw">journal</span>, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span>) 
+<span class="no">notes</span>$<span class="no">journal</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span>(<span class="no">notes</span>$<span class="no">journal</span>, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span>)
 
 <span class="co"># get bib references from the DOI (that exist)</span>
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">notes</span><span class="op">$</span><span class="kw">doi</span>, <span class="kw">doi2bib</span>))
-</pre></div>
+<span class="no">bib</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">notes</span>$<span class="no">doi</span>, <span class="no">doi2bib</span>))</pre></body></html></div>
 <p>The <em>Journal of Plant Pathology</em> does not supply valid bib entries via the DOI. So we need to clean them up.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="co"># locations of Journal of "Plant Pathology"" entries in bib object</span>
-<span class="kw">clean_pp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"journal=\\{Journal of Plant Pathology\\}"</span>, <span class="kw">bib</span>)
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># locations of Journal of "Plant Pathology"" entries in bib object</span>
+<span class="no">clean_pp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"journal=\\{Journal of Plant Pathology\\}"</span>, <span class="no">bib</span>)
 
 <span class="co"># create a dataset of just those bib entries</span>
-<span class="kw">bib_clean_pp</span> <span class="op">&lt;-</span> <span class="kw">bib</span>[<span class="kw">clean_pp</span>]
+<span class="no">bib_clean_pp</span> <span class="kw">&lt;-</span> <span class="no">bib</span>[<span class="no">clean_pp</span>]
 
 <span class="co"># function to clean the entries</span>
-<span class="kw">clean_articles_pp</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">x</span>) {
-  <span class="kw">title_loc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span>(pattern = <span class="st">"title"</span>, <span class="kw">x</span>))
-  <span class="kw">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw">x</span>, start = <span class="kw">title_loc</span>[<span class="fl">1</span>], stop = <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(<span class="kw">x</span>))
-  <span class="kw">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"@article{jpp,\n\t"</span> , <span class="kw">y</span>)
-  <span class="kw">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"}, "</span>, <span class="st">"},\n\t"</span>, <span class="kw">y</span>)
-  <span class="kw">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"="</span>, <span class="st">" = "</span>, <span class="kw">y</span>)
-  <span class="kw">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"}}\n"</span>, <span class="st">"}\n}"</span>, <span class="kw">y</span>)
+<span class="no">clean_articles_pp</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+  <span class="no">title_loc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gregexpr</a></span>(<span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"title"</span>, <span class="no">x</span>))
+  <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="no">x</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="no">title_loc</span>[<span class="fl">1</span>], <span class="kw">stop</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(<span class="no">x</span>))
+  <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"@article{jpp,\n\t"</span> , <span class="no">y</span>)
+  <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"}, "</span>, <span class="st">"},\n\t"</span>, <span class="no">y</span>)
+  <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"="</span>, <span class="st">" = "</span>, <span class="no">y</span>)
+  <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"}}\n"</span>, <span class="st">"}\n}"</span>, <span class="no">y</span>)
 }
 
 <span class="co"># apply function and clean the bib entries</span>
-<span class="kw">cleaned_pp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">bib_clean_pp</span>, <span class="kw">clean_articles_pp</span>))
+<span class="no">cleaned_pp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">bib_clean_pp</span>, <span class="no">clean_articles_pp</span>))
 
 <span class="co"># remove the incorrect entries for Journal of Plant Pathology</span>
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="kw">bib</span>[<span class="op">-</span><span class="kw">clean_pp</span>]
-</pre></div>
+<span class="no">bib</span> <span class="kw">&lt;-</span> <span class="no">bib</span>[-<span class="no">clean_pp</span>]</pre></body></html></div>
 <p><em>Phytopathologia Mediterranea</em> also provides some malformed bib entries. The cite entries are malformed and <code>&lt;em&gt; &lt;/em&gt;</code> is used rather than the proper <code>\textit{}</code> for a BibTeX file.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">clean_pm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"journal=\\{Phytopathologia Mediterranea\\}"</span>, <span class="kw">bib</span>)
-<span class="kw">bib_clean_pm</span> <span class="op">&lt;-</span> <span class="kw">bib</span>[<span class="kw">clean_pm</span>]
-<span class="kw">clean_articles_pm</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">x</span>) {
-  <span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">" @article\\{[[:print:]]+, title=\\{"</span>, <span class="st">"@article\\{PM, title = \\{"</span>, <span class="kw">x</span>)
-  <span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;em&gt;"</span>, <span class="st">"\\\textit\\{"</span>, <span class="kw">x</span>)
-  <span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;/em&gt;"</span>, <span class="st">"}"</span>, <span class="kw">x</span>)
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">clean_pm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"journal=\\{Phytopathologia Mediterranea\\}"</span>, <span class="no">bib</span>)
+<span class="no">bib_clean_pm</span> <span class="kw">&lt;-</span> <span class="no">bib</span>[<span class="no">clean_pm</span>]
+<span class="no">clean_articles_pm</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+  <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">" @article\\{[[:print:]]+, title=\\{"</span>, <span class="st">"@article\\{PM, title = \\{"</span>, <span class="no">x</span>)
+  <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;em&gt;"</span>, <span class="st">"\\\textit\\{"</span>, <span class="no">x</span>)
+  <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;/em&gt;"</span>, <span class="st">"}"</span>, <span class="no">x</span>)
   }
 
 <span class="co"># apply function and clean the bib entries</span>
-<span class="kw">cleaned_pm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">bib_clean_pm</span>, <span class="kw">clean_articles_pm</span>))
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="kw">bib</span>[<span class="op">-</span><span class="kw">clean_pm</span>]
-</pre></div>
+<span class="no">cleaned_pm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">bib_clean_pm</span>, <span class="no">clean_articles_pm</span>))
+<span class="no">bib</span> <span class="kw">&lt;-</span> <span class="no">bib</span>[-<span class="no">clean_pm</span>]</pre></body></html></div>
 <p>The larger list of bib objects has some items that are supposedly invalid DOIs. In this step we remove them and clean up the list. They’ll be added back to the database when we merge the notes at the end.</p>
 <p>Also there are duplicates in the list somehow. Use <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> to clean the list up.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="kw">bib</span>[<span class="kw">bib</span> != <span class="st">"Invalid DOI"</span>]
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">bib</span> <span class="kw">&lt;-</span> <span class="no">bib</span>[<span class="no">bib</span> <span class="kw">!=</span> <span class="st">"Invalid DOI"</span>]
 
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">bib</span>)
-</pre></div>
+<span class="no">bib</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">bib</span>)</pre></body></html></div>
 <p>Next export the items as files to disk as .bib files to be cleaned using JabRef. This will automatically assign unique cite keys and fix some issues with characters in the bib file. Open the file in JabRef and click “yes” when prompted to regarding the cite keys.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="co"># clean up any existing files since we're appending</span>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># clean up any existing files since we're appending</span>
 <span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="st">"~/tmp/bib_new_article_notes.bib"</span>)
 
 <span class="co"># write files to a local directory and clean up with JabRef</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">bib</span>),
-       <span class="kw">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
-       append = <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">cleaned_pp</span>),
-       <span class="kw">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
-       append = <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">cleaned_pm</span>),
-       <span class="kw">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
-       append = <span class="fl">TRUE</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">bib</span>),
+       <span class="no">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
+       <span class="kw">append</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">cleaned_pp</span>),
+       <span class="no">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
+       <span class="kw">append</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">cleaned_pm</span>),
+       <span class="no">write</span>, <span class="st">"~/tmp/bib_new_article_notes.bib"</span>,
+       <span class="kw">append</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p><em>Important</em> Open resulting files in <code>~/tmp</code> directory in JabRef, create new keys and resave. JabRef will generate unique keys and fix any inconsistencies that may exist from the DOI search.</p>
 </div>
 <div id="export-google-sheets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#export-google-sheets" class="anchor"></a>Export Google Sheets</h3>
 <p>In this last bit, import the BibTeX file back into R and export to a tab in the Google Sheets for collaborative edits.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="co"># import both the Journal of Plant Pathology (cleaned_bib) and article_notes.bib</span>
-<span class="kw">bib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/bib2df/reference/bib2df.html">bib2df</a></span>(<span class="st">"~/tmp/bib_new_article_notes.bib"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">bib</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">bib</span>))
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># import both the Journal of Plant Pathology (cleaned_bib) and article_notes.bib</span>
+<span class="no">bib</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/bib2df/reference/bib2df.html">bib2df</a></span>(<span class="st">"~/tmp/bib_new_article_notes.bib"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">bib</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">bib</span>))
 
 <span class="co"># join notes with bibliographic data</span>
-<span class="kw">bib_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw">notes</span>, <span class="kw">bib</span>)
-<span class="kw">bib_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw">bib_df</span>, <span class="kw">new_assignees</span>)
+<span class="no">bib_df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">notes</span>, <span class="no">bib</span>)
+<span class="no">bib_df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">bib_df</span>, <span class="no">new_assignees</span>)
 
 <span class="co"># create Google Sheet for concurrent edits</span>
-<span class="kw">new_article_notes</span> <span class="op">&lt;-</span>
-  <span class="kw">new_article_notes</span> <span class="op">%&gt;%</span>
+<span class="no">new_article_notes</span> <span class="kw">&lt;-</span>
+  <span class="no">new_article_notes</span> <span class="kw">%&gt;%</span>
   <span class="fu">gs_ws_new</span>(
-    ws_title = <span class="st">"new_article_evaluations"</span>,
-    input = <span class="kw">bib_df</span>,
-    trim = <span class="fl">TRUE</span>,
-    verbose = <span class="fl">FALSE</span>
+    <span class="kw">ws_title</span> <span class="kw">=</span> <span class="st">"new_article_evaluations"</span>,
+    <span class="kw">input</span> <span class="kw">=</span> <span class="no">bib_df</span>,
+    <span class="kw">trim</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+    <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>
   )
 
 <span class="co"># clean up files to build R package properly with no NOTES</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="st">".httr-oauth"</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="st">".httr-oauth"</span>)</pre></body></html></div>
 </div>
 <div id="last-steps" class="section level3">
 <h3 class="hasAnchor">
@@ -434,7 +424,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
