@@ -75,19 +75,19 @@
       <a href="../articles/f_analysis_journal.html">Analysis of Journal Effect</a>
     </li>
     <li>
-      <a href="../articles/g_analysis_art_class.html">Analysis</a>
+      <a href="../articles/g_analysis_art_class.html">Analysis of Article Class Effect</a>
     </li>
     <li>
-      <a href="../articles/h_analysis_mol_focus.html">Analysis</a>
+      <a href="../articles/h_analysis_mol_focus.html">Analysis of Molecular Focus Effect</a>
     </li>
     <li>
-      <a href="../articles/i_analysis_5y_if.html">Analysis</a>
+      <a href="../articles/i_analysis_5y_if.html">Analysis of Five Year Impact Factor</a>
     </li>
     <li>
-      <a href="../articles/j_analysis_access_policy.html">Analysis</a>
+      <a href="../articles/j_analysis_access_policy.html">Analysis of Open Access Policy</a>
     </li>
     <li>
-      <a href="../articles/k_analysis_year.html">Analysis</a>
+      <a href="../articles/k_analysis_year.html">Analysis of Publication Year Effect</a>
     </li>
   </ul>
 </li>
@@ -223,28 +223,6 @@
     <span class="kw">chains</span> <span class="kw">=</span> <span class="fl">4</span>
   )
 <span class="co">#&gt; Compiling Stan program...</span>
-<span class="co">#&gt; Trying to compile a simple C file</span>
-<span class="co">#&gt; Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c</span>
-<span class="co">#&gt; clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o</span>
-<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
-<span class="co">#&gt; In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
-<span class="co">#&gt; In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:</span>
-<span class="co">#&gt; In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:88:</span>
-<span class="co">#&gt; /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'</span>
-<span class="co">#&gt; namespace Eigen {</span>
-<span class="co">#&gt; ^</span>
-<span class="co">#&gt; /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator</span>
-<span class="co">#&gt; namespace Eigen {</span>
-<span class="co">#&gt;                ^</span>
-<span class="co">#&gt;                ;</span>
-<span class="co">#&gt; In file included from &lt;built-in&gt;:1:</span>
-<span class="co">#&gt; In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:</span>
-<span class="co">#&gt; In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:</span>
-<span class="co">#&gt; /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found</span>
-<span class="co">#&gt; #include &lt;complex&gt;</span>
-<span class="co">#&gt;          ^~~~~~~~~</span>
-<span class="co">#&gt; 3 errors generated.</span>
-<span class="co">#&gt; make: *** [foo.o] Error 1</span>
 <span class="co">#&gt; Start sampling</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">m1</span>)
